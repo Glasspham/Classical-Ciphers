@@ -42,7 +42,7 @@
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding-top: 76px; /* Account for fixed navbar */
+  /* padding-top: 76px; Account for fixed navbar */
 }
 
 /* Gradient background for hero */
@@ -382,6 +382,12 @@ html {
   background: var(--secondary);
   border-color: var(--secondary);
   color: white;
+}
+
+/* Sữa phần icon thông tin */
+a {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+  text-decoration: none;
 }
 
 /* Alert styling */
