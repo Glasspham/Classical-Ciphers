@@ -7,6 +7,7 @@ const CipherDisk = {
   step: 0, // For drawing specific steps
   indexChar: "K", // The reference character on the INNER disk
   isDecryptMode: false, // Flag to check if in decrypt mode
+  isInnerRotation: true, // Flag to check if inner disk is rotating
 
   init: function () {
     this.canvas = document.getElementById("cipher-disk");
@@ -238,6 +239,7 @@ const CipherDisk = {
 // Page functions
 function encryptDisk() {
   CipherDisk.isDecryptMode = false; // Set to encrypt mode
+  CipherDisk.isInnerRotation = document.getElementById("rotate-inner").checked;
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0); // Reset view to the first step
   const plaintext = document.getElementById("plaintext").value;
@@ -255,6 +257,7 @@ function encryptDisk() {
 
 function decryptDisk() {
   CipherDisk.isDecryptMode = true; // Set to decrypt mode
+  CipherDisk.isInnerRotation = document.getElementById("rotate-inner").checked;
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0); // Reset view to the first step
   const ciphertext = document.getElementById("plaintext").value;
@@ -271,11 +274,12 @@ function decryptDisk() {
 }
 
 // Helper functions
+// Xoay vòng trong
 function getMappedRotatedInnerDisk(keywordChar, indexChar, outerDisk, innerDisk) {
   const keywordPosInOuter = outerDisk.indexOf(keywordChar);
   const indexPosInInner = innerDisk.indexOf(indexChar);
   if (keywordPosInOuter === -1 || indexPosInInner === -1) return innerDisk;
-  let mapped = '';
+  let mapped = "";
   for (let i = 0; i < outerDisk.length; i++) {
     // outerDisk[i] là ký tự vòng ngoài tại vị trí i
     const relativePos = i - keywordPosInOuter;
@@ -285,7 +289,7 @@ function getMappedRotatedInnerDisk(keywordChar, indexChar, outerDisk, innerDisk)
   return mapped;
 }
 
-// Hàm tạo vòng ngoài đã xoay tương ứng với ký tự giải mã (dùng cho giải mã chi tiết)
+// Xoay vòng ngoài
 function getMappedRotatedOuterDisk(keywordChar, indexChar, outerDisk, innerDisk) {
   const keywordPosInOuter = outerDisk.indexOf(keywordChar);
   const indexPosInInner = innerDisk.indexOf(indexChar);
@@ -317,86 +321,179 @@ function updatemappingtable() {
 
   const ciphertext = (document.getElementById("plaintext")?.value || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
   const loopText = CipherDisk.isDecryptMode ? ciphertext : plaintext;
-  let html = '<div class="small">';
+  let html = "<div>";
 
   for (let i = 0; i < loopText.length; i++) {
     const char = loopText[i];
     const keywordChar = keyword[i % keyword.length];
     const keywordPosInOuter = outerDisk.indexOf(keywordChar);
-
-    if (!CipherDisk.isDecryptMode) {
-      // ===== MÃ HÓA =====
-      const outerCharPos = outerDisk.indexOf(char);
+    if (CipherDisk.isInnerRotation) {
+      // ===== VÒNG TRONG =====
       const mappedRotatedInner = getMappedRotatedInnerDisk(keywordChar, indexChar, outerDisk, innerDisk);
-      if (outerCharPos !== -1 && keywordPosInOuter !== -1) {
-        const relativePos = outerCharPos - keywordPosInOuter;
-        const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
-        const cipherChar = innerDisk[innerIndex];
+      if (!CipherDisk.isDecryptMode) {
+        // ===== MÃ HÓA =====
+        const outerCharPos = outerDisk.indexOf(char);
+        if (outerCharPos !== -1 && keywordPosInOuter !== -1) {
+          const relativePos = outerCharPos - keywordPosInOuter;
+          const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
+          const cipherChar = innerDisk[innerIndex];
 
-        html += `<div class="border rounded p-3 mb-3 bg-light">
-          <div class="row">
-            <div class="col-12">
-              <h6><strong>Bước ${i + 1}:</strong> <span class="badge bg-secondary">${keywordChar}</span> (vòng ngoài) thẳng hàng với <span class="badge bg-warning text-dark">${indexChar}</span> (vòng trong)</h6>
-              <div class="mb-2">
-                <small class="text-muted">
-                  <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
-                  <strong>Vòng trong:</strong> <code class="text-info">${mappedRotatedInner}</code><br>
-                  <strong>Keyword:</strong> <code class="text-warning">${keyword}</code><br>
-                  <strong>Index:</strong> <code class="text-info">${indexChar}</code> (vị trí ${indexPosInInner} trong vòng trong)
-                </small>
-              </div>
-              <div class="mb-2">
-                <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
-              </div>
-              <div class="text-dark small">
-                <strong>Giải thích:</strong><br>
-                • <code>${char}</code> (vị trí ${outerCharPos}) cách <code>${keywordChar}</code> (vị trí ${keywordPosInOuter}) là <strong>${relativePos}</strong> bước.<br>
-                • Áp dụng vào vòng trong: Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + <strong>${relativePos}</strong> = Vị trí <strong>${innerIndex}</strong>, cho ra ký tự <code>${cipherChar}</code>.
+          html += `<div class="border rounded p-3 mb-3 bg-light">
+            <div class="row">
+              <div class="col-12">
+                <h6>
+                  <strong>Bước ${i + 1}:</strong>
+                  <span class="badge bg-secondary">${keywordChar}</span> 
+                  (vòng ngoài) thẳng hàng với 
+                  <span class="badge bg-warning text-dark">${indexChar}</span> 
+                  (vòng trong)
+                </h6>
+                <div class="mb-2">
+                    <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
+                    <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
+                    <strong>Vòng trong:</strong> <code class="text-info">${mappedRotatedInner}</code>
+                </div>
+                <div class="mb-2">
+                  <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
+                </div>
+                <div class="text-dark">
+                  <strong>Giải thích bằng thuật toán:</strong><br>
+                  • <code>${char}</code> (vị trí ${outerCharPos}) cách <code>${keywordChar}</code> (vị trí ${keywordPosInOuter}) là <strong>${relativePos}</strong> bước.<br>
+                  • Vị trí vòng trong = Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + <strong>${relativePos}</strong> = <strong>${innerIndex}</strong>.<br>
+                  • Ký tự tương ứng: <code>${cipherChar}</code>.
+                </div>
               </div>
             </div>
-          </div>
-        </div>`;
+          </div>`;
+        } else {
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+            <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
+          </div>`;
+        }
       } else {
-        html += `<div class="border rounded p-3 mb-3 bg-light-danger">
-          <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
-        </div>`;
+        // ===== GIẢI MÃ =====
+        const innerCharPos = innerDisk.indexOf(char);
+        if (innerCharPos !== -1 && keywordPosInOuter !== -1) {
+          const relativePos = innerCharPos - indexPosInInner;
+          const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
+          const plainChar = outerDisk[outerIndex];
+
+          html += `<div class="border rounded p-3 mb-3 bg-light">
+            <div class="row"> 
+              <div class="col-12">
+                <h6>
+                  <strong>Bước ${i + 1} (Giải mã):</strong>
+                  <span class="badge bg-secondary">${keywordChar}</span>
+                  (vòng ngoài) thẳng hàng với
+                  <span class="badge bg-warning text-dark">${indexChar}</span>
+                  (vòng trong)
+                </h6>
+                <div class="mb-2">
+                    <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
+                    <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
+                    <strong>Vòng trong:</strong> <code class="text-info">${mappedRotatedInner}</code>
+                </div>
+                <div class="mb-2">
+                  <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
+                </div>
+                <div class="text-dark">
+                  <strong>Giải thích bằng thuật toán:</strong><br>
+                  • <code>${char}</code> (vị trí ${innerCharPos} vòng trong) cách <code>${indexChar}</code> (vị trí ${indexPosInInner}) là <strong>${relativePos}</strong> bước.<br>
+                  • Vị trí vòng ngoài = Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + <strong>${relativePos}</strong> = <strong>${outerIndex}</strong>.<br>
+                  • Ký tự tương ứng: <code>${plainChar}</code>.
+                </div>
+              </div>
+            </div>
+          </div>`;
+        } else {
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+            <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
+          </div>`;
+        }
       }
     } else {
-      // ===== GIẢI MÃ =====
-      const innerCharPos = innerDisk.indexOf(char);
+      // ===== VÒNG NGOÀI =====
       const mappedRotatedOuter = getMappedRotatedOuterDisk(keywordChar, indexChar, outerDisk, innerDisk);
-      if (innerCharPos !== -1 && keywordPosInOuter !== -1) {
-        const relativePos = innerCharPos - indexPosInInner;
-        const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
-        const plainChar = outerDisk[outerIndex];
+      if (!CipherDisk.isDecryptMode) {
+        // ===== MÃ HÓA =====
+        const outerCharPos = outerDisk.indexOf(char);
+        if (outerCharPos !== -1 && keywordPosInOuter !== -1) {
+          const relativePos = outerCharPos - keywordPosInOuter;
+          const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
+          const cipherChar = innerDisk[innerIndex];
 
-        html += `<div class="border rounded p-3 mb-3 bg-light">
-          <div class="row"> 
-            <div class="col-12">
-              <h6><strong>Bước ${i + 1} (Giải mã):</strong> <span class="badge bg-secondary">${keywordChar}</span> (vòng ngoài) thẳng hàng với <span class="badge bg-warning text-dark">${indexChar}</span> (vòng trong)</h6>
-              <div class="mb-2">
-                <small class="text-muted">
-                  <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
-                  <strong>Vòng trong:</strong> <code class="text-info">${innerDisk}</code><br>
-                  <strong>Keyword:</strong> <code class="text-warning">${keyword}</code><br>
-                  <strong>Index:</strong> <code class="text-info">${indexChar}</code> (vị trí ${indexPosInInner} trong vòng trong)
-                </small>
-              </div>
-              <div class="mb-2">
-                <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
-              </div>
-              <div class="text-dark small">
-                <strong>Giải thích:</strong><br>
-                • <code>${char}</code> (vị trí ${innerCharPos} vòng trong) cách <code>${indexChar}</code> (vị trí ${indexPosInInner}) là <strong>${relativePos}</strong> bước.<br>
-                • Áp dụng vào vòng ngoài: Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + <strong>${relativePos}</strong> = Vị trí <strong>${outerIndex}</strong>, cho ra ký tự <code>${plainChar}</code>.
+          html += `<div class="border rounded p-3 mb-3 bg-light">
+            <div class="row">
+              <div class="col-12">
+                <h6>
+                  <strong>Bước ${i + 1}:</strong>
+                  <span class="badge bg-secondary">${keywordChar}</span> 
+                  (vòng ngoài) thẳng hàng với 
+                  <span class="badge bg-warning text-dark">${indexChar}</span> 
+                  (vòng trong)
+                </h6>
+                <div class="mb-2">
+                    <strong>Mô phỏng vòng ngoài sau khi xoay:</strong> <br>
+                    <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
+                    <strong>Vòng trong:</strong> <code class="text-info">${innerDisk}</code>
+                </div>
+                <div class="mb-2">
+                  <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
+                </div>
+                <div class="text-dark">
+                  <strong>Giải thích bằng thuật toán:</strong><br>
+                  • <code>${char}</code> (vị trí ${outerCharPos}) cách <code>${keywordChar}</code> (vị trí ${keywordPosInOuter}) là <strong>${relativePos}</strong> bước.<br>
+                  • Vị trí vòng trong = Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + <strong>${relativePos}</strong> = <strong>${innerIndex}</strong>.<br>
+                  • Ký tự tương ứng: <code>${cipherChar}</code>.
+                </div>
               </div>
             </div>
-          </div>
-        </div>`;
+          </div>`;
+        } else {
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+            <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
+          </div>`;
+        }
       } else {
-        html += `<div class="border rounded p-3 mb-3 bg-light-danger">
-          <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
-        </div>`;
+        // ===== GIẢI MÃ =====
+        const innerCharPos = innerDisk.indexOf(char);
+        if (innerCharPos !== -1 && keywordPosInOuter !== -1) {
+          const relativePos = innerCharPos - indexPosInInner;
+          const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
+          const plainChar = outerDisk[outerIndex];
+
+          html += `<div class="border rounded p-3 mb-3 bg-light">
+            <div class="row"> 
+              <div class="col-12">
+                <h6>
+                  <strong>Bước ${i + 1} (Giải mã):</strong>
+                  <span class="badge bg-secondary">${keywordChar}</span>
+                  (vòng ngoài) thẳng hàng với
+                  <span class="badge bg-warning text-dark">${indexChar}</span>
+                  (vòng trong)
+                </h6>
+                <div class="mb-2">
+                    <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
+                    <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
+                    <strong>Vòng trong:</strong> <code class="text-info">${innerDisk}</code>
+                </div>
+                <div class="mb-2">
+                  <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
+                </div>
+                <div class="text-dark">
+                  <strong>Giải thích bằng thuật toán:</strong><br>
+                  • <code>${char}</code> (vị trí ${innerCharPos} vòng trong) cách <code>${indexChar}</code> (vị trí ${indexPosInInner}) là <strong>${relativePos}</strong> bước.<br>
+                  • Vị trí vòng ngoài = Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + <strong>${relativePos}</strong> = <strong>${outerIndex}</strong>.<br>
+                  • Ký tự tương ứng: <code>${plainChar}</code>.
+                </div>
+              </div>
+            </div>
+          </div>`;
+        } else {
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+            <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
+          </div>`;
+        }
       }
     }
   }
@@ -416,25 +513,12 @@ function loadExample() {
   CipherUtils.showToast("Đã tải ví dụ mẫu!");
 }
 
-function generateFromKeyword() {
-  const keyword = document.getElementById("keyword").value || "KM21";
-  const outerDisk = "AWCDEUGILMNOPQRSTVXY12KH";
-  const innerDisk = "DLGAZENBOSFCHTYQIXKVP&MR";
-
-  document.getElementById("outer-disk").value = outerDisk;
-  document.getElementById("inner-disk").value = innerDisk;
-  document.getElementById("_index").value = keyword.charAt(0);
-
-  CipherDisk.updateFromInputs();
-  CipherDisk.draw(0);
-  CipherUtils.showToast(`Đã tạo từ keyword: ${keyword}`);
-}
-
 function resetDisks() {
-  document.getElementById("outer-disk").value = "AWCDEUGILMNOPQRSTVXY12KH";
-  document.getElementById("inner-disk").value = "DLGAZENBOSFCHTYQIXKVP&MR";
-  document.getElementById("keyword").value = "KM21";
-  document.getElementById("_index").value = "K";
+  document.getElementById("outer-disk").value = "";
+  document.getElementById("inner-disk").value = "";
+  document.getElementById("keyword").value = "";
+  document.getElementById("_index").value = "";
+  document.getElementById("plaintext").value = "";
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0);
   CipherUtils.showToast("Đã reset về cấu hình mặc định!");
@@ -459,4 +543,13 @@ function copyResult() {
 
 document.addEventListener("DOMContentLoaded", function () {
   CipherDisk.init();
+  var detailsModal = document.getElementById('detailsModal');
+  if (detailsModal) {
+    detailsModal.addEventListener('show.bs.modal', function () {
+      var processTitle = document.getElementById('process-title');
+      if (processTitle) {
+        processTitle.textContent = CipherDisk.isDecryptMode ? 'Quá trình Decrypt' : 'Quá trình Encrypt';
+      }
+    });
+  }
 });

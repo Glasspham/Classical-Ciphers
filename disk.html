@@ -127,37 +127,50 @@
 
             <div class="form-group">
               <label for="outer-disk" class="form-label">Vòng ngoài (Plaintext):</label>
-              <input type="text" id="outer-disk" class="form-control text-mono" value="AWCDEUGILMNOPQRSTVXY12KH" maxlength="30" />
+              <input type="text" id="outer-disk" class="form-control text-mono" maxlength="30" />
               <small class="text-light">Ký tự cho vòng ngoài (A-Z hoặc tùy chỉnh)</small>
             </div>
 
             <div class="form-group">
               <label for="inner-disk" class="form-label">Vòng trong (Ciphertext):</label>
-              <input type="text" id="inner-disk" class="form-control text-mono" value="DLGAZENBOSFCHTYQIXKVP&MR" maxlength="30" />
+              <input type="text" id="inner-disk" class="form-control text-mono" maxlength="30" />
               <small class="text-light">Ký tự cho vòng trong</small>
             </div>
 
             <div class="form-group">
               <label for="keyword" class="form-label">Keyword:</label>
-              <input type="text" id="keyword" class="form-control" placeholder="VD: KM21" value="KM21" />
+              <input type="text" id="keyword" class="form-control" />
               <small class="text-light">Keyword để xác định cách xoay đĩa (K trong vòng trong sẽ khớp với từng ký tự của keyword)</small>
             </div>
 
             <div class="form-group">
               <label for="_index" class="form-label">Ký tự khớp (Index):</label>
-              <input type="text" id="_index" class="form-control text-center" maxlength="1" value="K" />
+              <input type="text" id="_index" class="form-control" maxlength="1" />
               <small class="text-light">Ký tự từ vòng ngoài để khớp với K trong vòng trong (thường là ký tự đầu tiên của keyword)</small>
+            </div>
+
+            <div class="form-group mb-2">
+              <label class="form-label">Chế độ xoay:<br /></label>
+              <div id="rotation-mode" class="d-flex gap-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rotationMode" id="rotate-inner" value="inner" checked />
+                  <label class="form-check-label" for="rotate-inner">Xoay vòng <strong>trong</strong></label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rotationMode" id="rotate-outer" value="outer" />
+                  <label class="form-check-label" for="rotate-outer">Xoay vòng <strong>ngoài</strong></label>
+                </div>
+              </div>
             </div>
 
             <div class="d-flex gap-2 mb-3">
               <button class="btn btn-secondary" onclick="loadExample()"><i class="fas fa-file-import me-2"></i>Tải ví dụ</button>
-              <button class="btn btn-outline-info" onclick="generateFromKeyword()"><i class="fas fa-key me-2"></i>Từ Keyword</button>
               <button class="btn btn-outline-secondary" onclick="resetDisks()"><i class="fas fa-undo me-2"></i>Reset</button>
             </div>
 
             <div class="form-group">
               <label for="plaintext" class="form-label">Văn bản gốc:</label>
-              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa...">ALL YOU WILL PASS THE EXAME</textarea>
+              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa..."></textarea>
             </div>
 
             <div class="d-flex gap-2 mb-3">
@@ -208,7 +221,10 @@
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
           <div class="modal-content bg-solution text-light">
             <div class="modal-header">
-              <h5 class="modal-title" id="detailsModalLabel"><i class="fas fa-list me-2"></i>Quá trình xử lý từng bước</h5>
+              <h5 class="modal-title" id="detailsModalLabel">
+                <i class="fas fa-list me-2"></i>
+                <span id="process-title"></span>
+              </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-dark" id="mapping-table-modal-body">
