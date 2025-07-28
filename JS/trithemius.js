@@ -216,10 +216,10 @@ function updateKeySequence(text, keyType, customKey) {
   for (let i = 0; i < displayLength; i++) {
     const keyChar = TrithemiusCipher.alphabet[keys[i]];
     html += `<div class="col-1 text-center mb-1">
-            <div class="small">
-                <div class="text-muted">${i}</div>
-                <div class="badge bg-info">${keys[i]}</div>
-                <div class="text-muted">${keyChar}</div>
+            <div class="font-height d-flex flex-column align-items-center">
+                <div>${i}</div>
+                <div class="badge bg-info" style="margin: 0.6rem 0rem">${keys[i]}</div>
+                <div>${keyChar}</div>
             </div>
         </div>`;
   }
@@ -241,24 +241,24 @@ function updateStepByStep(text, keyType, customKey, isEncrypt) {
   }
 
   let html = `<div class="table-responsive">
-        <table class="table table-sm">
+        <table class="table table-sm font-height" style="border: 1px solid black; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th>Vị trí</th>
-                    <th>Ký tự</th>
-                    <th>Khóa</th>
-                    <th>Tính toán</th>
-                    <th>Kết quả</th>
+                    <th class="header-table">Vị trí</th>
+                    <th class="header-table">Ký tự</th>
+                    <th class="header-table">Khóa</th>
+                    <th class="header-table">Tính toán</th>
+                    <th class="header-table">Kết quả</th>
                 </tr>
             </thead>
             <tbody>`;
 
   for (const step of steps) {
     html += `<tr>
-            <td>${step.position}</td>
+            <td><strong>${step.position}</strong></td>
             <td><span class="badge bg-secondary">${step.original}</span></td>
             <td><span class="badge bg-info">${step.key} (${step.keyChar})</span></td>
-            <td><small>${step.calculation}</small></td>
+            <td><strong>${step.calculation}</strong></td>
             <td><span class="badge bg-success">${step.result}</span></td>
         </tr>`;
   }

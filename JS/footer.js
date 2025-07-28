@@ -1,7 +1,7 @@
 // Footer component for Classical Ciphers
 function loadFooter() {
   const footerHTML = `
-            <footer class="bg-footer text-white py-4 mt-5">
+            <footer class="bg-footer text-dark py-4 mt-5">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6">
@@ -17,7 +17,7 @@ function loadFooter() {
                                 </a>
                             </p>
                             <p class="mb-0">
-                                <a href="https://github.com/Glasspham/Support-Network" target="_blank" class="text-light text-decoration-none opacity-75">
+                                <a href="https://github.com/Glasspham/Support-Network" target="_blank" class="text-dark text-decoration-none opacity-75">
                                     <i class="fas fa-code me-1"></i>
                                     Open source Classical Ciphers
                                 </a>

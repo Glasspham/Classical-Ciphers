@@ -11,9 +11,23 @@
   --dark: #343a40;
 }
 
+.header-table {
+  background-color: #96D4D4 !important;
+}
+
+.font-height {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.bg-card {
+  --bs-bg-opacity: 1;
+  background: linear-gradient(135deg, #D2E0FB, #FEF9D9, #DEE5D4, #8EACCD) !important;
+}
+
 .bg-navbar {
   --bs-bg-opacity: 1;
-  background: linear-gradient(135deg, #090040, #471396, #b13bff, #ffcc00) !important;
+  background: linear-gradient(135deg, #090040, #471396, #b13bff) !important;
 }
 
 .bg-footer {
@@ -23,7 +37,7 @@
 
 .bg-solution {
   --bs-bg-opacity: 1;
-  background: linear-gradient(135deg, #00a9ff, #89cff3, #a0e9ff, #cdf5fd) !important;
+  background: linear-gradient(135deg, #00a9ff, #89cff3, #a0e9ff) !important;
 }
 
 .bg-detail {
@@ -43,11 +57,6 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   /* padding-top: 76px; Account for fixed navbar */
-}
-
-/* Gradient background for hero */
-.bg-gradient-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 /* Hero Section */
@@ -123,6 +132,7 @@ body {
 }
 
 .card-text {
+  max-height: 80px;
   min-height: 70px;
   overflow-y: auto;
   display: block;
@@ -142,7 +152,7 @@ body {
 }
 
 .cipher-example {
-  background: #b7c1cb;
+  background: #868abd5b;
   padding: 8px 12px;
   border-radius: 6px;
   border-left: 3px solid rgb(226, 43, 122);
