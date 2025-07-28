@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cipher Disk - Classical Ciphers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="container mt-4">
+      <!-- Header -->
+      <div class="cipher-header mb-3">
+        <h1 class="display-4"><i class="fas fa-circle-notch text-info me-3"></i>Cipher Disk</h1>
+        <span class="me-3">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#descModal" title="Mô tả thuật toán">
+            <i class="fas fa-info-circle text-info fs-3"></i>
+          </a>
+        </span>
+        <span>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#extraModal" title="Thông tin bổ sung">
+            <i class="fas fa-lightbulb text-warning fs-3"></i>
+          </a>
+        </span>
+      </div>
+
+      <!-- Modal: Mô tả thuật toán -->
+      <div class="modal fade" id="descModal" tabindex="-1" aria-labelledby="descModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-detail text-light">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="descModalLabel"><i class="fas fa-info-circle text-info me-2"></i>Mô tả thuật toán</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Cipher Disk là một phương pháp mã hóa cổ điển sử dụng hai đĩa xoay để mã hóa và giải mã văn bản. Đây là một dạng của mã hóa thay thế đa biểu (polyalphabetic substitution).</p>
+              <ul class="mt-3">
+                <li><strong>Index offset:</strong> Ký tự trong "Ký tự khớp" quyết định vị trí ban đầu của K</li>
+                <li><strong>Keyword cycle:</strong> KM21 được lặp lại: K-M-2-1-K-M-2-1...</li>
+                <li><strong>Alignment rule:</strong> Ký tự K trong vòng trong luôn khớp với ký tự keyword hiện tại ở vòng ngoài</li>
+                <li><strong>Rotation:</strong> Xoay vòng trong với offset từ index, sau đó K khớp với K, M, 2, 1...</li>
+                <li><strong>Mapping:</strong> Tìm plaintext trong vòng ngoài, lấy ký tự tương ứng ở vòng trong đã xoay</li>
+                <li><strong>Progressive:</strong> Mỗi ký tự có alignment khác nhau theo keyword</li>
+              </ul>
+              <div class="mt-3 p-3 bg-dark rounded">
+                <h6><i class="fas fa-graduation-cap me-2"></i>Ví dụ chi tiết (với Index = K):</h6>
+                <div class="row">
+                  <div class="col-md-6">
+                    <strong>Setup:</strong> Index K tạo offset 0 → K ở vị trí gốc<br />
+                    <strong>Bước 1:</strong> K khớp K ngoài → A(pos 0) → kết quả từ offset<br />
+                    <strong>Bước 2:</strong> K khớp M ngoài → L(pos 8) → kết quả từ offset<br />
+                    <small class="text-warning">⚠️ Index khác sẽ cho kết quả khác!</small>
+                  </div>
+                  <div class="col-md-6">
+                    <small>
+                      <strong>Vòng ngoài:</strong> AWCDEUGILMNOPQRSTVXY12KH<br />
+                      <strong>Vòng trong:</strong> DLGAZENBOSFCHTYQIXKVP&MR<br />
+                      <strong>K trong inner:</strong> vị trí 20<br />
+                      <strong>Index effect:</strong> Xoay ban đầu của K
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Thông tin bổ sung -->
+      <div class="modal fade" id="extraModal" tabindex="-1" aria-labelledby="extraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-additional">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="extraModalLabel"><i class="fas fa-lightbulb text-warning me-2"></i>Thông tin bổ sung</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6>Ưu điểm:</h6>
+                  <ul>
+                    <li>Có thể thay đổi mã hóa trong quá trình</li>
+                    <li>Dễ sử dụng và mang theo</li>
+                    <li>Không cần ghi nhớ bảng mã phức tạp</li>
+                    <li>Cơ sở cho polyalphabetic ciphers</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <h6>Nhược điểm:</h6>
+                  <ul>
+                    <li>Vẫn là substitution cipher cơ bản</li>
+                    <li>Dễ bị phá nếu chỉ dùng một vị trí</li>
+                    <li>Cần thỏa thuận trước về cách xoay</li>
+                    <li>Có thể bị mất hoặc hỏng</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <h6>Phát triển lịch sử:</h6>
+                <ul>
+                  <li><strong>1467:</strong> Leon Battista Alberti phát minh cipher disk đầu tiên</li>
+                  <li><strong>16-17 thế kỷ:</strong> Được sử dụng rộng rãi trong ngoại giao</li>
+                  <li><strong>Thế chiến I:</strong> Phát triển thành các máy mã hóa cơ học</li>
+                  <li><strong>Enigma:</strong> Nguyên lý tương tự với nhiều rotor</li>
+                </ul>
+              </div>
+              <div class="mt-3">
+                <h6>Cách sử dụng trong thực tế:</h6>
+                <p>Thông thường, người gửi và người nhận sẽ thỏa thuận trước về:</p>
+                <ul>
+                  <li>Vị trí ban đầu của đĩa</li>
+                  <li>Cách thức xoay đĩa (sau mỗi ký tự, từ, hoặc câu)</li>
+                  <li>Tín hiệu để thay đổi vị trí đĩa</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Tools Section -->
+        <div class="col-lg-6">
+          <div class="cipher-tools">
+            <h4><i class="fas fa-tools text-info me-2"></i>Công cụ mã hóa/giải mã</h4>
+
+            <div class="form-group">
+              <label for="outer-disk" class="form-label">Vòng ngoài (Plaintext):</label>
+              <input type="text" id="outer-disk" class="form-control text-mono" value="AWCDEUGILMNOPQRSTVXY12KH" maxlength="30" />
+              <small class="text-light">Ký tự cho vòng ngoài (A-Z hoặc tùy chỉnh)</small>
+            </div>
+
+            <div class="form-group">
+              <label for="inner-disk" class="form-label">Vòng trong (Ciphertext):</label>
+              <input type="text" id="inner-disk" class="form-control text-mono" value="DLGAZENBOSFCHTYQIXKVP&MR" maxlength="30" />
+              <small class="text-light">Ký tự cho vòng trong</small>
+            </div>
+
+            <div class="form-group">
+              <label for="keyword" class="form-label">Keyword:</label>
+              <input type="text" id="keyword" class="form-control" placeholder="VD: KM21" value="KM21" />
+              <small class="text-light">Keyword để xác định cách xoay đĩa (K trong vòng trong sẽ khớp với từng ký tự của keyword)</small>
+            </div>
+
+            <div class="form-group">
+              <label for="_index" class="form-label">Ký tự khớp (Index):</label>
+              <input type="text" id="_index" class="form-control text-center" maxlength="1" value="K" />
+              <small class="text-light">Ký tự từ vòng ngoài để khớp với K trong vòng trong (thường là ký tự đầu tiên của keyword)</small>
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-secondary" onclick="loadExample()"><i class="fas fa-file-import me-2"></i>Tải ví dụ</button>
+              <button class="btn btn-outline-info" onclick="generateFromKeyword()"><i class="fas fa-key me-2"></i>Từ Keyword</button>
+              <button class="btn btn-outline-secondary" onclick="resetDisks()"><i class="fas fa-undo me-2"></i>Reset</button>
+            </div>
+
+            <div class="form-group">
+              <label for="plaintext" class="form-label">Văn bản gốc:</label>
+              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa...">ALL YOU WILL PASS THE EXAME</textarea>
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-encrypt" onclick="encryptDisk()"><i class="fas fa-lock me-2"></i>Mã hóa</button>
+              <button class="btn btn-decrypt" onclick="decryptDisk()"><i class="fas fa-unlock me-2"></i>Giải mã</button>
+              <button class="btn btn-clear" onclick="clearAll()"><i class="fas fa-eraser me-2"></i>Xóa tất cả</button>
+            </div>
+
+            <div class="form-group">
+              <label for="ciphertext" class="form-label">Kết quả:</label>
+              <textarea id="ciphertext" class="form-control text-mono" rows="4" readonly placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+              <button class="btn btn-outline-info btn-sm mt-2" onclick="copyResult()"><i class="fas fa-copy me-2"></i>Sao chép</button>
+              <button type="button" class="btn btn-info mt-2" data-bs-toggle="modal" data-bs-target="#detailsModal" id="show-details-btn" disabled><i class="fas fa-search-plus me-2"></i>Xem chi tiết</button>
+            </div>
+
+            <div id="result-message" class="alert" style="display: none;"></div>
+          </div>
+        </div>
+
+        <!-- Visualization Section -->
+        <div class="col-lg-6">
+          <div class="visualization-container">
+            <h4><i class="fas fa-circle-notch text-info me-2"></i>Đĩa mã hóa - Hiển thị alignment</h4>
+            <p class="text-light">Canvas hiển thị <span class="text-info">Index</span> (vòng trong) khớp với ký tự đầu tiên của <span class="text-info">Keyword</span> (vòng ngoài):</p>
+
+            <div class="text-center">
+              <canvas id="cipher-disk" width="300" height="300" class="cipher-disk-canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Công thức thuật toán -->
+          <div class="visualization-container">
+            <h5><i class="fas fa-calculator me-2"></i>Công thức thuật toán:</h5>
+            <strong>Công thức mã hóa:</strong><br />
+            <small>
+              1. Tìm vị trí của ký tự keyword trong vòng ngoài<br />
+              2. Tìm vị trí của ký tự plaintext trong vòng ngoài<br />
+              3. Tính: relativePos = plainPos - keywordPos<br />
+              4. Tính: innerIndex = (indexPos + relativePos + innerLength) % innerLength<br />
+              5. Lấy ký tự tại vị trí innerIndex trong vòng trong
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Lời giải chi tiết -->
+      <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content bg-solution text-light">
+            <div class="modal-header">
+              <h5 class="modal-title" id="detailsModalLabel"><i class="fas fa-list me-2"></i>Quá trình xử lý từng bước</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark" id="mapping-table-modal-body">
+              <!-- Detailed steps will be injected here by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/script.js"></script>
+    <script src="./JS/navbar.js"></script>
+    <script src="./JS/footer.js"></script>
+    <script src="./JS/disk.js"></script>
+  </body>
+</html>

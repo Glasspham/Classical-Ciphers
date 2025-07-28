@@ -1,0 +1,472 @@
+/* Custom CSS for Classical Ciphers */
+
+:root {
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+}
+
+.bg-navbar {
+  --bs-bg-opacity: 1;
+  background: linear-gradient(135deg, #090040, #471396, #b13bff, #ffcc00) !important;
+}
+
+.bg-footer {
+  --bs-bg-opacity: 1;
+  background: linear-gradient(135deg, #e9ff97, #ffd18e, #ffa38f, #ff7ee2) !important;
+}
+
+.bg-solution {
+  --bs-bg-opacity: 1;
+  background: linear-gradient(135deg, #00a9ff, #89cff3, #a0e9ff, #cdf5fd) !important;
+}
+
+.bg-detail {
+  --bs-bg-opacity: 1;
+  background-color: rgba(59, 36, 145, var(--bs-bg-opacity)) !important;
+}
+
+.bg-additional {
+  --bs-bg-opacity: 1;
+  background-color: rgba(102, 151, 232, var(--bs-bg-opacity)) !important;
+}
+
+.small {
+  font-size: 12px !important;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 76px; /* Account for fixed navbar */
+}
+
+/* Gradient background for hero */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-animation {
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-letters {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.floating-letters .letter {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+  animation: letterFloat 2s ease-in-out infinite;
+  margin: 0 0.5rem;
+}
+
+.floating-letters .letter:nth-child(1) {
+  animation-delay: 0s;
+}
+.floating-letters .letter:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.floating-letters .letter:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.floating-letters .letter:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.floating-letters .letter:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes letterFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+/* Cipher Cards */
+.cipher-card {
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.card-text {
+  min-height: 70px;
+  overflow-y: auto;
+  display: block;
+}
+
+.cipher-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.cipher-icon {
+  transition: transform 0.3s ease;
+}
+
+.cipher-card:hover .cipher-icon {
+  transform: scale(1.1);
+}
+
+.cipher-example {
+  background: #b7c1cb;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid rgb(226, 43, 122);
+}
+
+/* Feature items */
+.feature-item {
+  padding: 2rem 1rem;
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom button styles */
+.btn {
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Navbar styling */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.navbar-brand i {
+  margin-right: 0.5rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding-top: 66px;
+  }
+
+  .hero {
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .floating-letters .letter {
+    font-size: 1.5rem;
+    margin: 0 0.2rem;
+  }
+
+  .cipher-card {
+    margin-bottom: 2rem;
+  }
+
+  .feature-item {
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Animation delays for cards */
+.cipher-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.cipher-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.cipher-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.cipher-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.cipher-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.cipher-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+/* Page load animations */
+.cipher-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll-triggered animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Common styles for cipher pages */
+.cipher-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.cipher-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.cipher-description {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--primary);
+}
+
+.cipher-tools {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.result-section {
+  background: #e9ecef;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+}
+
+.visualization-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+/* Table styles for cipher visualizations */
+.cipher-table {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.cipher-table td,
+.cipher-table th {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.cipher-table th {
+  background: var(--primary);
+  color: white;
+}
+
+.cipher-table td {
+  background: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.cipher-table td:hover {
+  background: #e9ecef;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  padding: 12px 15px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Button variations */
+.btn-encrypt {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.btn-decrypt {
+  background: var(--warning);
+  border-color: var(--warning);
+  color: #212529;
+}
+
+.btn-clear {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: white;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 10px;
+  border: none;
+  padding: 1rem 1.5rem;
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Utility classes */
+.text-mono {
+  font-family: "Courier New", monospace;
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.bg-light-primary {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Canvas styles for cipher disk */
+.cipher-disk-canvas {
+  border: 2px solid #dee2e6;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.cipher-disk-canvas:hover {
+  transform: scale(1.05);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #78b9b5, #0f828c, #065084, #320a6b);
+    color: #e0e0e0;
+  }
+
+  .cipher-tools,
+  .visualization-container {
+    background: #17292a;
+    color: #e0e0e0;
+  }
+
+  .cipher-description {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+
+  .result-section {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar,
+  .btn,
+  .floating-letters {
+    display: none !important;
+  }
+
+  .cipher-card {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}

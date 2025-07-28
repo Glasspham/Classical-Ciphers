@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="icon.ico" />
+    <title>Classical Ciphers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main>
+      <!-- Hero Section -->
+      <section class="hero bg-gradient-primary text-white">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <h1 class="display-4 fw-bold mb-4">Classical Ciphers</h1>
+              <p class="lead mb-4">Khám phá thế giới mã hóa cổ điển với các thuật toán được sử dụng từ thời cổ đại đến hiện đại. Tìm hiểu cách hoạt động và thực hành với các công cụ tương tác.</p>
+              <div class="d-flex gap-3">
+                <a href="#ciphers" class="btn btn-light btn-lg"> <i class="fas fa-play me-2"></i>Khám phá ngay </a>
+                <a href="#about" class="btn btn-outline-light btn-lg"> <i class="fas fa-info-circle me-2"></i>Tìm hiểu thêm </a>
+              </div>
+            </div>
+            <div class="col-lg-6 text-center">
+              <div class="hero-animation text-dark">
+                <i class="fas fa-scroll display-1"></i>
+                <div class="floating-letters">
+                  <span class="letter">A</span>
+                  <span class="letter">B</span>
+                  <span class="letter">C</span>
+                  <span class="letter">D</span>
+                  <span class="letter">E</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cipher Cards Section -->
+      <section id="ciphers" class="py-5">
+        <div class="container">
+          <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Các thuật toán mã hóa cổ điển</h2>
+            <p class="lead text-light">Chọn một thuật toán để bắt đầu mã hóa và giải mã</p>
+          </div>
+          <div class="row g-4">
+            <!-- Caesar Cipher -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card cipher-card h-100 shadow-sm ">
+                <div class="card-body text-center">
+                  <div class="cipher-icon mb-3">
+                    <i class="fas fa-arrows-alt-h fa-3x text-primary"></i>
+                  </div>
+                  <h4 class="card-title">Caesar Cipher</h4>
+                  <p class="card-text">Mã hóa dịch chuyển đơn giản, mỗi chữ cái được thay thế bởi chữ cái khác cách nó một số vị trí cố định trong bảng chữ cái.</p>
+                  <div class="cipher-example mb-3">
+                    <small class="text-dark">Ví dụ: A → D (shift = 3)</small>
+                  </div>
+                  <a href="caesar.html" class="btn btn-primary"> <i class="fas fa-external-link-alt me-2"></i>Thử ngay </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Polybius Square -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card cipher-card h-100 shadow-sm ">
+                <div class="card-body text-center">
+                  <div class="cipher-icon mb-3">
+                    <i class="fas fa-th fa-3x text-success"></i>
+                  </div>
+                  <h4 class="card-title">Polybius Square</h4>
+                  <p class="card-text">Mã hóa bằng lưới 5x5, mỗi chữ cái được thay thế bởi tọa độ hàng và cột của nó trong lưới.</p>
+                  <div class="cipher-example mb-3">
+                    <small class="text-dark">Ví dụ: A → 11, B → 12</small>
+                  </div>
+                  <a href="polybius.html" class="btn btn-success"> <i class="fas fa-external-link-alt me-2"></i>Thử ngay </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Playfair Cipher -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card cipher-card h-100 shadow-sm ">
+                <div class="card-body text-center">
+                  <div class="cipher-icon mb-3">
+                    <i class="fas fa-border-all fa-3x text-warning"></i>
+                  </div>
+                  <h4 class="card-title">Playfair Cipher</h4>
+                  <p class="card-text">Mã hóa cặp chữ cái (digraph) sử dụng ma trận 5x5 được tạo từ một từ khóa.</p>
+                  <div class="cipher-example mb-3">
+                    <small class="text-dark">Mã hóa theo cặp: HE → BM</small>
+                  </div>
+                  <a href="playfair.html" class="btn btn-warning"> <i class="fas fa-external-link-alt me-2"></i>Thử ngay </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cipher Disk -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card cipher-card h-100 shadow-sm ">
+                <div class="card-body text-center">
+                  <div class="cipher-icon mb-3">
+                    <i class="fas fa-circle-notch fa-3x text-info"></i>
+                  </div>
+                  <h4 class="card-title">Cipher Disk</h4>
+                  <p class="card-text">Đĩa mã hóa với hai vòng tròn đồng tâm, có thể xoay để tạo ra các bảng mã hóa thay thế khác nhau.</p>
+                  <div class="cipher-example mb-3">
+                    <small class="text-dark">Xoay đĩa để thay đổi mã hóa</small>
+                  </div>
+                  <a href="disk.html" class="btn btn-info"> <i class="fas fa-external-link-alt me-2"></i>Thử ngay </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trithemius Cipher -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card cipher-card h-100 shadow-sm ">
+                <div class="card-body text-center">
+                  <div class="cipher-icon mb-3">
+                    <i class="fas fa-chart-line fa-3x text-danger"></i>
+                  </div>
+                  <h4 class="card-title">Trithemius Cipher</h4>
+                  <p class="card-text">Mã hóa với khóa thay đổi theo vị trí, mỗi chữ cái được dịch chuyển một lượng tăng dần.</p>
+                  <div class="cipher-example mb-3">
+                    <small class="text-dark">A→A, B→C, C→E (0,1,2...)</small>
+                  </div>
+                  <a href="trithemius.html" class="btn btn-danger"> <i class="fas fa-external-link-alt me-2"></i>Thử ngay </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bonus Card -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card cipher-card h-100 shadow-sm  border-secondary">
+                <div class="card-body text-center">
+                  <div class="cipher-icon mb-3">
+                    <i class="fas fa-plus-circle fa-3x text-secondary"></i>
+                  </div>
+                  <h4 class="card-title">Thêm thuật toán</h4>
+                  <p class="card-text">Các thuật toán mã hóa cổ điển khác như Vigenère, Affine, Rail Fence sẽ được bổ sung trong tương lai.</p>
+                  <div class="cipher-example mb-3">
+                    <small class="text-dark">Sắp ra mắt...</small>
+                  </div>
+                  <button class="btn btn-outline-secondary" disabled><i class="fas fa-clock me-2"></i>Sớm thôi</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-5 2 text-dark">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+              <h2 class="display-5 fw-bold mb-4">Về Classical Ciphers</h2>
+              <p class="lead mb-4">Trang web này được tạo ra để giúp bạn học và thực hành các thuật toán mã hóa cổ điển. Từ Caesar Cipher đơn giản đến Playfair phức tạp hơn, mỗi thuật toán đều có giá trị lịch sử và giáo dục riêng.</p>
+            </div>
+          </div>
+          <div class="row g-4 mt-4">
+            <div class="col-lg-3 col-md-6 text-center">
+              <div class="feature-item">
+                <i class="fas fa-history fa-3x text-primary mb-3"></i>
+                <h5>Lịch sử</h5>
+                <p class="text-dark">Tìm hiểu nguồn gốc và lịch sử của từng thuật toán mã hóa</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+              <div class="feature-item">
+                <i class="fas fa-laptop-code fa-3x text-success mb-3"></i>
+                <h5>Tương tác</h5>
+                <p class="text-dark">Giao diện trực quan với các công cụ mã hóa và giải mã</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+              <div class="feature-item">
+                <i class="fas fa-mobile-alt fa-3x text-warning mb-3"></i>
+                <h5>Responsive</h5>
+                <p class="text-dark">Hoạt động mượt mà trên mọi thiết bị từ mobile đến desktop</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+              <div class="feature-item">
+                <i class="fas fa-graduation-cap fa-3x text-info mb-3"></i>
+                <h5>Giáo dục</h5>
+                <p class="text-dark">Tài liệu học tập và ví dụ minh họa chi tiết</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JS/script.js"></script>
+    <script src="JS/navbar.js"></script>
+    <script src="JS/footer.js"></script>
+  </body>
+</html>

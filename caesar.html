@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caesar Cipher - Classical Ciphers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="container mt-4">
+      <!-- Header -->
+      <div class="cipher-header mb-3">
+        <h1 class="display-4"><i class="fas fa-arrows-alt-h text-primary me-3"></i>Caesar Cipher</h1>
+        <span class="me-3">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#descModal" title="Mô tả thuật toán">
+            <i class="fas fa-info-circle text-primary fs-3"></i>
+          </a>
+        </span>
+        <span>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#extraModal" title="Thông tin bổ sung">
+            <i class="fas fa-lightbulb text-warning fs-3"></i>
+          </a>
+        </span>
+      </div>
+
+      <!-- Modal: Mô tả thuật toán -->
+      <div class="modal fade" id="descModal" tabindex="-1" aria-labelledby="descModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-detail text-dark">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="descModalLabel"><i class="fas fa-info-circle text-primary me-2"></i>Mô tả thuật toán</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Caesar Cipher là một phương pháp mã hóa cổ điển đơn giản, sử dụng phép dịch chuyển ký tự trong bảng chữ cái. Đây là một trong những hệ thống mã hóa đầu tiên và dễ hiểu nhất.</p>
+              <ul class="mt-3">
+                <li><strong>Lịch sử:</strong> Được Julius Caesar sử dụng để mã hóa các thông điệp quân sự</li>
+                <li><strong>Độ dịch chuyển:</strong> Thường là 3 vị trí (A→D, B→E, C→F...)</li>
+                <li><strong>Loại:</strong> Mã hóa thay thế đơn biểu (monoalphabetic substitution)</li>
+                <li><strong>Độ bảo mật:</strong> Rất thấp - chỉ có 25 khóa khả dĩ</li>
+              </ul>
+              <div class="mt-3 p-3 bg-dark text-light rounded">
+                <h6><i class="fas fa-graduation-cap me-2"></i>Ví dụ chi tiết:</h6>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <strong>Văn bản gốc:</strong><br />
+                    <span class="text-mono">HELLO</span>
+                  </div>
+                  <div class="col-sm-6">
+                    <strong>Mã hóa (shift=3):</strong><br />
+                    <span class="text-mono text-primary">KHOOR</span>
+                  </div>
+                </div>
+                <hr />
+                <small class="text-light"> H(7) → K(10), E(4) → H(7), L(11) → O(14), L(11) → O(14), O(14) → R(17) </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Thông tin bổ sung -->
+      <div class="modal fade" id="extraModal" tabindex="-1" aria-labelledby="extraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-additional text-light">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="extraModalLabel"><i class="fas fa-lightbulb text-warning me-2"></i>Thông tin bổ sung</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6>Ưu điểm:</h6>
+                  <ul>
+                    <li>Rất đơn giản để implement</li>
+                    <li>Nhanh chóng và hiệu quả</li>
+                    <li>Không cần bộ nhớ lớn</li>
+                    <li>Dễ hiểu và giải thích</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <h6>Nhược điểm:</h6>
+                  <ul>
+                    <li>Bảo mật rất thấp</li>
+                    <li>Dễ bị tấn công brute force</li>
+                    <li>Có thể phá bằng frequency analysis</li>
+                    <li>Chỉ có 25 khóa khả dĩ</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <h6>Phương pháp phá mã:</h6>
+                <ol>
+                  <li><strong>Brute Force:</strong> Thử tất cả 25 khóa khả dĩ</li>
+                  <li><strong>Frequency Analysis:</strong> Phân tích tần suất xuất hiện ký tự</li>
+                  <li><strong>Known Plaintext:</strong> Nếu biết một phần văn bản gốc</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools Section -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="cipher-tools">
+            <h4><i class="fas fa-tools text-primary me-2"></i>Công cụ mã hóa/giải mã</h4>
+
+            <div class="form-group">
+              <label for="plaintext" class="form-label">Văn bản gốc:</label>
+              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa...">HELLO WORLD</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="shift" class="form-label">Độ dịch chuyển (1-25):</label>
+              <input type="number" id="shift" class="form-control" value="3" min="1" max="25" />
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-encrypt" onclick="encryptCaesar()"><i class="fas fa-lock me-2"></i>Mã hóa</button>
+              <button class="btn btn-decrypt" onclick="decryptCaesar()"><i class="fas fa-unlock me-2"></i>Giải mã</button>
+              <button class="btn btn-clear" onclick="clearAll()"><i class="fas fa-eraser me-2"></i>Xóa</button>
+            </div>
+
+            <div class="form-group">
+              <label for="ciphertext" class="form-label">Kết quả:</label>
+              <textarea id="ciphertext" class="form-control text-mono" rows="4" readonly placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+              <button class="btn btn-outline-primary btn-sm mt-2" onclick="copyResult()"><i class="fas fa-copy me-2"></i>Sao chép</button>
+            </div>
+
+            <div id="result-message" class="alert" style="display: none;"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <!-- Visualization Section -->
+          <div class="visualization-container">
+            <h4><i class="fas fa-table text-primary me-2"></i>Bảng dịch chuyển</h4>
+            <p class="text-dark">Bảng ánh xạ chữ cái với độ dịch chuyển hiện tại:</p>
+            <div id="shift-table" class="text-center">
+              <!-- Table will be generated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Coordinate Helper -->
+          <div class="visualization-container mt-4">
+            <h5><i class="fas fa-search text-success me-2"></i>Tra cứu từng từ</h5>
+            <div class="input-group mb-2">
+              <input type="text" id="lookup-word" class="form-control" placeholder="Nhập từ cần tra cứu..." />
+              <button class="btn btn-outline-success" onclick="lookupWord()"><i class="fas fa-search"></i> Tra cứu</button>
+            </div>
+            <div id="lookup-result" class="alert alert-info" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/script.js"></script>
+    <script src="./JS/navbar.js"></script>
+    <script src="./JS/footer.js"></script>
+    <script src="./JS/caesar.js"></script>
+  </body>
+</html>

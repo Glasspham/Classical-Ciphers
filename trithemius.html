@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trithemius Cipher - Classical Ciphers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="container mt-4">
+      <!-- Header -->
+      <div class="cipher-header mb-3">
+        <h1 class="display-4"><i class="fas fa-wave-square text-warning me-3"></i>Trithemius Cipher</h1>
+        <span class="me-3">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#descModal" title="Mô tả thuật toán">
+            <i class="fas fa-info-circle text-primary fs-3"></i>
+          </a>
+        </span>
+        <span>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#extraModal" title="Thông tin bổ sung">
+            <i class="fas fa-lightbulb text-warning fs-3"></i>
+          </a>
+        </span>
+      </div>
+
+      <!-- Modal: Mô tả thuật toán -->
+      <div class="modal fade" id="descModal" tabindex="-1" aria-labelledby="descModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-detail text-light">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="descModalLabel"><i class="fas fa-info-circle text-primary me-2"></i>Mô tả thuật toán</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Trithemius Cipher là một phương pháp mã hóa thay thế đa biểu, sử dụng dãy dịch chuyển khác nhau cho từng ký tự. Đây là một trong những hệ thống mã hóa cổ điển phức tạp hơn.</p>
+              <ul class="mt-3">
+                <li><strong>Lịch sử:</strong> Phát minh bởi Johannes Trithemius (thế kỷ 16)</li>
+                <li><strong>Độ dịch chuyển:</strong> Thay đổi theo vị trí ký tự (A→B, B→D, C→F...)</li>
+                <li><strong>Loại:</strong> Mã hóa thay thế đa biểu (polyalphabetic substitution)</li>
+                <li><strong>Độ bảo mật:</strong> Cao hơn Caesar, Polybius</li>
+              </ul>
+              <div class="mt-3 p-3 bg-dark rounded">
+                <h6><i class="fas fa-graduation-cap me-2"></i>Ví dụ chi tiết:</h6>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <strong>Văn bản gốc:</strong><br />
+                    <span class="text-mono">HELLO</span>
+                  </div>
+                  <div class="col-sm-6">
+                    <strong>Mã hóa:</strong><br />
+                    <span class="text-mono text-warning">IGOPT</span>
+                  </div>
+                </div>
+                <hr />
+                <small class="text-light"> H(7)+1=I(8), E(4)+2=G(6), L(11)+3=O(14), L(11)+4=P(15), O(14)+5=T(19) </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Thông tin bổ sung -->
+      <div class="modal fade" id="extraModal" tabindex="-1" aria-labelledby="extraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-additional text-light">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="extraModalLabel"><i class="fas fa-lightbulb text-warning me-2"></i>Thông tin bổ sung</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6>Ưu điểm:</h6>
+                  <ul>
+                    <li>Bảo mật cao hơn mã hóa đơn</li>
+                    <li>Khó bị phá bằng frequency analysis</li>
+                    <li>Thay đổi dịch chuyển liên tục</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <h6>Nhược điểm:</h6>
+                  <ul>
+                    <li>Phức tạp hơn để implement</li>
+                    <li>Cần biết quy tắc dịch chuyển</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <h6>Phương pháp phá mã:</h6>
+                <ol>
+                  <li><strong>Known Plaintext:</strong> Nếu biết một phần văn bản gốc</li>
+                  <li><strong>Frequency Analysis:</strong> Phân tích tần suất ký tự</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Tools Section -->
+        <div class="col-lg-6">
+          <div class="cipher-tools">
+            <h4><i class="fas fa-tools text-info me-2"></i>Công cụ mã hóa/giải mã</h4>
+
+            <div class="form-group">
+              <label for="key-type" class="form-label">Loại khóa:</label>
+              <select id="key-type" class="form-select" onchange="updateKeyType()">
+                <option value="progressive">Progressive (0, 1, 2, 3...)</option>
+                <option value="squared">Squared (0, 1, 4, 9...)</option>
+                <option value="custom">Custom Key</option>
+              </select>
+            </div>
+
+            <div id="custom-key-group" class="form-group" style="display: none;">
+              <label for="custom-key" class="form-label">Khóa tùy chỉnh:</label>
+              <input type="text" id="custom-key" class="form-control" placeholder="SECRETKEY" />
+              <small class="text-dark">Nhập chuỗi khóa (chỉ chữ cái A-Z)</small>
+            </div>
+
+            <div class="form-group">
+              <label for="plaintext" class="form-label">Văn bản gốc:</label>
+              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa...">ATTACKATDAWN</textarea>
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-encrypt" onclick="encryptTrithemius()"><i class="fas fa-lock me-2"></i>Mã hóa</button>
+              <button class="btn btn-decrypt" onclick="decryptTrithemius()"><i class="fas fa-unlock me-2"></i>Giải mã</button>
+              <button class="btn btn-info" onclick="generateExample()"><i class="fas fa-lightbulb me-2"></i>Ví dụ</button>
+              <button class="btn btn-clear" onclick="clearAll()"><i class="fas fa-eraser me-2"></i>Xóa</button>
+            </div>
+
+            <div class="form-group">
+              <label for="ciphertext" class="form-label">Kết quả:</label>
+              <textarea id="ciphertext" class="form-control text-mono" rows="4" readonly placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+              <button class="btn btn-outline-info btn-sm mt-2" onclick="copyResult()"><i class="fas fa-copy me-2"></i>Sao chép</button>
+            </div>
+
+            <div id="result-message" class="alert" style="display: none;"></div>
+          </div>
+
+          <!-- Key Sequence -->
+          <div class="cipher-tools mt-4">
+            <h5><i class="fas fa-key text-secondary me-2"></i>Dãy khóa</h5>
+            <div id="key-sequence" class="small">
+              <!-- Key sequence will be generated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Visualization Section -->
+        <div class="col-lg-6">
+          <div class="visualization-container">
+            <h4><i class="fas fa-table text-info me-2"></i>Bảng mã hóa từng bước</h4>
+            <div id="step-by-step" class="small">
+              <!-- Step by step will be generated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Tabula Recta -->
+          <div class="visualization-container mt-4">
+            <h5><i class="fas fa-th text-secondary me-2"></i>Tabula Recta (Bảng Trithemius)</h5>
+            <div class="table-responsive">
+              <table id="tabula-recta" class="table table-sm small text-center">
+                <!-- Tabula Recta will be generated by JavaScript -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/script.js"></script>
+    <script src="./JS/navbar.js"></script>
+    <script src="./JS/footer.js"></script>
+    <script src="./JS/trithemius.js"></script>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polybius Square - Classical Ciphers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="container mt-4">
+      <!-- Header -->
+      <div class="cipher-header mb-3">
+        <h1 class="display-4"><i class="fas fa-th text-success me-3"></i>Polybius Square Cipher</h1>
+        <span class="me-3">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#descModal" title="Mô tả thuật toán">
+            <i class="fas fa-info-circle text-primary fs-3"></i>
+          </a>
+        </span>
+        <span>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#extraModal" title="Thông tin bổ sung">
+            <i class="fas fa-lightbulb text-warning fs-3"></i>
+          </a>
+        </span>
+      </div>
+
+      <!-- Modal: Mô tả thuật toán -->
+      <div class="modal fade" id="descModal" tabindex="-1" aria-labelledby="descModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-detail text-light">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="descModalLabel"><i class="fas fa-info-circle text-primary me-2"></i>Mô tả thuật toán</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Polybius Square là một phương pháp mã hóa cổ điển sử dụng lưới 5x5 để mã hóa các chữ cái thành các cặp số. Đây là một trong những hệ thống mã hóa đơn giản nhưng hiệu quả.</p>
+              <ul class="mt-3">
+                <li><strong>Lịch sử:</strong> Được phát minh bởi Polybius (~200-118 BC)</li>
+                <li><strong>Cơ chế:</strong> Thay thế chữ cái bằng 2 con số (hàng và cột)</li>
+                <li><strong>Đặc biệt:</strong> I và J được gộp chung trong cùng một ô</li>
+                <li><strong>Ứng dụng:</strong> Được sử dụng trong telegraph và các hệ thống tín hiệu</li>
+              </ul>
+              <div class="mt-3 p-3 bg-dark rounded">
+                <h6><i class="fas fa-graduation-cap me-2"></i>Ví dụ chi tiết:</h6>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <strong>Văn bản gốc:</strong><br />
+                    <span class="text-mono">HELLO</span>
+                  </div>
+                  <div class="col-sm-6">
+                    <strong>Mã hóa (key=MONARCHY):</strong><br />
+                    <span class="text-mono text-info">BM OD ZB XD NA</span>
+                  </div>
+                </div>
+                <hr />
+                <small class="text-light"> Ghép thành cặp: HE LL OX (thêm X nếu lẻ), mã hóa từng cặp </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Thông tin bổ sung -->
+      <div class="modal fade" id="extraModal" tabindex="-1" aria-labelledby="extraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-additional text-light">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="extraModalLabel"><i class="fas fa-lightbulb text-warning me-2"></i>Thông tin bổ sung</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6>Ưu điểm:</h6>
+                  <ul>
+                    <li>Dễ thực hiện bằng giấy bút</li>
+                    <li>Khó bị phá hơn Caesar</li>
+                    <li>Không cần bảng chữ cái đặc biệt</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <h6>Nhược điểm:</h6>
+                  <ul>
+                    <li>Vẫn có thể bị phá bằng frequency analysis</li>
+                    <li>Không bảo mật với văn bản dài</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-3">
+                <h6>Phương pháp phá mã:</h6>
+                <ol>
+                  <li><strong>Frequency Analysis:</strong> Phân tích tần suất số xuất hiện</li>
+                  <li><strong>Known Plaintext:</strong> Nếu biết một phần văn bản gốc</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Tools Section -->
+        <div class="col-lg-6">
+          <div class="cipher-tools">
+            <h4><i class="fas fa-tools text-success me-2"></i>Công cụ mã hóa/giải mã</h4>
+
+            <div class="form-group">
+              <label for="plaintext" class="form-label">Văn bản gốc:</label>
+              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa...">HELLO WORLD</textarea>
+              <small class="text-dark">Lưu ý: Chữ J sẽ được chuyển thành I</small>
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-encrypt" onclick="encryptPolybius()"><i class="fas fa-lock me-2"></i>Mã hóa</button>
+              <button class="btn btn-decrypt" onclick="decryptPolybius()"><i class="fas fa-unlock me-2"></i>Giải mã</button>
+              <button class="btn btn-clear" onclick="clearAll()"><i class="fas fa-eraser me-2"></i>Xóa</button>
+            </div>
+
+            <div class="form-group">
+              <label for="ciphertext" class="form-label">Kết quả:</label>
+              <textarea id="ciphertext" class="form-control text-mono" rows="4" readonly placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+              <button class="btn btn-outline-success btn-sm mt-2" onclick="copyResult()"><i class="fas fa-copy me-2"></i>Sao chép</button>
+            </div>
+
+            <div id="result-message" class="alert" style="display: none;"></div>
+          </div>
+
+          <!-- Example Section -->
+          <div class="cipher-tools mt-4">
+            <h5><i class="fas fa-lightbulb text-warning me-2"></i>Ví dụ minh họa</h5>
+            <div class="bg-light p-3 rounded">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <strong>Văn bản gốc:</strong><br />
+                  <span class="text-mono">HELLO</span>
+                </div>
+                <div class="col-sm-6">
+                  <strong>Mã hóa:</strong><br />
+                  <span class="text-mono text-success">23 15 31 31 34</span>
+                </div>
+              </div>
+              <hr />
+              <small class="text-dark"> H → (2,3) = 23, E → (1,5) = 15, L → (3,1) = 31, L → (3,1) = 31, O → (3,4) = 34 </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <!-- Visualization Section -->
+          <div class="visualization-container">
+            <h4><i class="fas fa-table text-success me-2"></i>Lưới Polybius 5x5</h4>
+            <p class="text-dark">Bảng tọa độ các chữ cái trong lưới:</p>
+            <div id="polybius-grid" class="text-center">
+              <!-- Grid will be generated by JavaScript -->
+            </div>
+
+            <div class="mt-4">
+              <h6>Cách đọc bảng:</h6>
+              <ul class="small">
+                <li>Số đầu tiên là <strong>hàng</strong> (1-5)</li>
+                <li>Số thứ hai là <strong>cột</strong> (1-5)</li>
+                <li>Ví dụ: A ở vị trí (1,1) → mã hóa thành "11"</li>
+                <li>I và J được gộp chung ở vị trí (2,4)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Coordinate Helper -->
+          <div class="visualization-container mt-4">
+            <h5><i class="fas fa-crosshairs text-info me-2"></i>Trợ giúp tọa độ</h5>
+            <div class="row">
+              <div class="col-6">
+                <label for="char-lookup" class="form-label">Tìm chữ cái:</label>
+                <input type="text" id="char-lookup" class="form-control" maxlength="1" placeholder="A" />
+              </div>
+              <div class="col-6">
+                <label class="form-label">Tọa độ:</label>
+                <input type="text" id="char-coordinate" class="form-control" readonly placeholder="11" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/script.js"></script>
+    <script src="./JS/navbar.js"></script>
+    <script src="./JS/footer.js"></script>
+    <script src="./JS/polybius.js"></script>
+  </body>
+</html>
