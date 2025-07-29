@@ -19,6 +19,9 @@ function loadNavbar() {
                             <a class="nav-link" href="caesar.html">Caesar</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="vigenere.html">Vigénère</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="polybius.html">Polybius</a>
                         </li>
                         <li class="nav-item">

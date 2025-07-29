@@ -371,7 +371,7 @@ function updatemappingtable() {
           outerDiskHtml = `<code>${highlightChars(outerDisk, outerHighlights)}</code>`;
           innerDiskHtml = `<code>${highlightChars(mappedRotatedInner, innerHighlights)}</code>`;
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row">
               <div class="col-12">
                 <h6>
@@ -399,7 +399,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
           </div>`;
         }
@@ -423,7 +423,7 @@ function updatemappingtable() {
           outerDiskHtml = `<code>${highlightChars(outerDisk, outerHighlights)}</code>`;
           innerDiskHtml = `<code>${highlightChars(mappedRotatedInner, innerHighlights)}</code>`;
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row"> 
               <div class="col-12">
                 <h6>
@@ -451,7 +451,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
           </div>`;
         }
@@ -479,7 +479,7 @@ function updatemappingtable() {
           outerDiskHtml = `<code>${highlightChars(mappedRotatedOuter, outerHighlights)}</code>`;
           innerDiskHtml = `<code>${highlightChars(innerDisk, innerHighlights)}</code>`;
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row">
               <div class="col-12">
                 <h6>
@@ -507,7 +507,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
           </div>`;
         }
@@ -531,7 +531,7 @@ function updatemappingtable() {
           outerDiskHtml = `<code>${highlightChars(mappedRotatedOuter, outerHighlights)}</code>`;
           innerDiskHtml = `<code>${highlightChars(innerDisk, innerHighlights)}</code>`;
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row"> 
               <div class="col-12">
                 <h6>
@@ -559,7 +559,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
           </div>`;
         }
