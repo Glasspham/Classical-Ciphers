@@ -37,12 +37,17 @@
 
 .bg-solution {
   --bs-bg-opacity: 1;
-  background: linear-gradient(135deg, #00a9ff, #89cff3, #a0e9ff) !important;
+  background: linear-gradient(135deg, #059212, #06D001, #9BEC00) !important;
 }
 
 .bg-detail {
   --bs-bg-opacity: 1;
   background-color: rgba(59, 36, 145, var(--bs-bg-opacity)) !important;
+}
+
+.bg-solution-detail {
+  --bs-bg-opacity: 1;
+  background-color: rgba(216, 233, 250, var(--bs-bg-opacity)) !important;
 }
 
 .bg-additional {

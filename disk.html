@@ -127,25 +127,25 @@
 
             <div class="form-group">
               <label for="outer-disk" class="form-label">Vòng ngoài (Plaintext):</label>
-              <input type="text" id="outer-disk" class="form-control text-mono" maxlength="30" />
+              <input type="text" id="outer-disk" class="form-control text-mono" maxlength="30" value="AWCDEUGILMNOPQRSTVXY12KH"/>
               <small class="text-light">Ký tự cho vòng ngoài (A-Z hoặc tùy chỉnh)</small>
             </div>
 
             <div class="form-group">
               <label for="inner-disk" class="form-label">Vòng trong (Ciphertext):</label>
-              <input type="text" id="inner-disk" class="form-control text-mono" maxlength="30" />
+              <input type="text" id="inner-disk" class="form-control text-mono" maxlength="30" value="DLGAZENBOSFCHTYQIXKVP&MR"/>
               <small class="text-light">Ký tự cho vòng trong</small>
             </div>
 
             <div class="form-group">
               <label for="keyword" class="form-label">Keyword:</label>
-              <input type="text" id="keyword" class="form-control" />
+              <input type="text" id="keyword" class="form-control" value="KM21"/>
               <small class="text-light">Keyword để xác định cách xoay đĩa (K trong vòng trong sẽ khớp với từng ký tự của keyword)</small>
             </div>
 
             <div class="form-group">
               <label for="_index" class="form-label">Ký tự khớp (Index):</label>
-              <input type="text" id="_index" class="form-control" maxlength="1" />
+              <input type="text" id="_index" class="form-control" maxlength="1" value="K"/>
               <small class="text-light">Ký tự từ vòng ngoài để khớp với K trong vòng trong (thường là ký tự đầu tiên của keyword)</small>
             </div>
 
@@ -164,13 +164,13 @@
             </div>
 
             <div class="d-flex gap-2 mb-3">
-              <button class="btn btn-secondary" onclick="loadExample()"><i class="fas fa-file-import me-2"></i>Tải ví dụ</button>
-              <button class="btn btn-outline-secondary" onclick="resetDisks()"><i class="fas fa-undo me-2"></i>Reset</button>
+              <!-- <button class="btn btn-secondary" onclick="loadExample()"><i class="fas fa-file-import me-2"></i>Tải ví dụ</button> -->
+              <button class="btn btn-outline-secondary" onclick="resetDisks()"><i class="fas fa-undo me-2"></i>Xóa sạch tất cả</button>
             </div>
 
             <div class="form-group">
               <label for="plaintext" class="form-label">Văn bản gốc:</label>
-              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa..."></textarea>
+              <textarea id="plaintext" class="form-control" rows="4" placeholder="Nhập văn bản cần mã hóa...">ALL YOU WILL PASS THE EXAM</textarea>
             </div>
 
             <div class="d-flex gap-2 mb-3">

@@ -82,6 +82,9 @@ const CipherDisk = {
     // Reference point on the inner disk is the index character
     const indexPosInInner = this.innerDisk.indexOf(this.indexChar);
 
+    // Angle for 12 o'clock
+    const topAngle = -90;
+
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
     // Draw outer disk background
@@ -104,8 +107,9 @@ const CipherDisk = {
     // Draw dividing lines for outer disk
     ctx.strokeStyle = COLOR_BORDER;
     ctx.lineWidth = LINE_WIDTH;
+    const outerSegmentAngle = 360 / outerChars;
     for (let i = 0; i < outerChars; i++) {
-      const angle = (((i * 360) / outerChars - 90) * Math.PI) / 180;
+      const angle = (((i * outerSegmentAngle) + topAngle - outerSegmentAngle / 2) * Math.PI) / 180;
       const x1 = CENTER_X + Math.cos(angle) * INNER_RADIUS;
       const y1 = CENTER_Y + Math.sin(angle) * INNER_RADIUS;
       const x2 = CENTER_X + Math.cos(angle) * OUTER_RADIUS;
@@ -117,8 +121,9 @@ const CipherDisk = {
     }
 
     // Draw dividing lines for inner disk
+    const innerSegmentAngle = 360 / innerChars;
     for (let i = 0; i < innerChars; i++) {
-      const angle = (((i * 360) / innerChars - 90) * Math.PI) / 180;
+      const angle = (((i * innerSegmentAngle) + topAngle - innerSegmentAngle / 2) * Math.PI) / 180;
       const x1 = CENTER_X;
       const y1 = CENTER_Y;
       const x2 = CENTER_X + Math.cos(angle) * INNER_RADIUS;
@@ -135,13 +140,13 @@ const CipherDisk = {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     for (let i = 0; i < outerChars; i++) {
-      // Calculate angle for the middle of each segment
-      const segmentAngle = 360 / outerChars;
-      const angle = ((i * segmentAngle + segmentAngle / 2 - 90) * Math.PI) / 180;
+      // Rotate so the keywordChar is at the top
+      const rotationOffset = this.outerDisk.indexOf(keywordChar);
+      const angle = ((((i - rotationOffset) * outerSegmentAngle + topAngle) * Math.PI) / 180);
       const x = CENTER_X + Math.cos(angle) * OUTER_TEXT_RADIUS;
       const y = CENTER_Y + Math.sin(angle) * OUTER_TEXT_RADIUS;
-      // Highlight the keyword character on the outer ring
-      if (i === alignmentOffset) {
+
+      if (i === rotationOffset) {
         ctx.fillStyle = COLOR_HIGHLIGHT;
         ctx.font = FONT_SIZE;
       } else {
@@ -154,15 +159,13 @@ const CipherDisk = {
     // Draw inner letters (lowercase), rotated
     ctx.font = FONT_SIZE;
     for (let i = 0; i < innerChars; i++) {
-      // Rotate inner disk so indexChar aligns with keywordChar
-      const adjustedPos = (i - indexPosInInner + alignmentOffset + innerChars) % innerChars;
-      // Calculate angle for the middle of each segment
-      const segmentAngle = 360 / innerChars;
-      const angle = ((adjustedPos * segmentAngle + segmentAngle / 2 - 90) * Math.PI) / 180;
+      // Rotate so the indexChar aligns with the keywordChar at the top
+      const rotationOffset = this.innerDisk.indexOf(this.indexChar);
+      const angle = ((((i - rotationOffset) * innerSegmentAngle + topAngle) * Math.PI) / 180);
       const x = CENTER_X + Math.cos(angle) * INNER_TEXT_RADIUS;
       const y = CENTER_Y + Math.sin(angle) * INNER_TEXT_RADIUS;
-      // Highlight the index character on the inner ring
-      if (i === indexPosInInner) {
+
+      if (i === rotationOffset) {
         ctx.fillStyle = COLOR_HIGHLIGHT;
         ctx.font = FONT_SIZE;
       } else {
@@ -338,7 +341,7 @@ function updatemappingtable() {
           const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
           const cipherChar = innerDisk[innerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row">
               <div class="col-12">
                 <h6>
@@ -351,7 +354,7 @@ function updatemappingtable() {
                 <div class="mb-2">
                     <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
                     <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-info">${mappedRotatedInner}</code>
+                    <strong>Vòng trong:</strong> <code class="text-danger">${mappedRotatedInner}</code>
                 </div>
                 <div class="mb-2">
                   <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
@@ -366,7 +369,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
           </div>`;
         }
@@ -378,7 +381,7 @@ function updatemappingtable() {
           const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
           const plainChar = outerDisk[outerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row"> 
               <div class="col-12">
                 <h6>
@@ -391,7 +394,7 @@ function updatemappingtable() {
                 <div class="mb-2">
                     <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
                     <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-info">${mappedRotatedInner}</code>
+                    <strong>Vòng trong:</strong> <code class="text-danger">${mappedRotatedInner}</code>
                 </div>
                 <div class="mb-2">
                   <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
@@ -406,7 +409,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
           </div>`;
         }
@@ -422,7 +425,7 @@ function updatemappingtable() {
           const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
           const cipherChar = innerDisk[innerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row">
               <div class="col-12">
                 <h6>
@@ -435,7 +438,7 @@ function updatemappingtable() {
                 <div class="mb-2">
                     <strong>Mô phỏng vòng ngoài sau khi xoay:</strong> <br>
                     <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-info">${innerDisk}</code>
+                    <strong>Vòng trong:</strong> <code class="text-danger">${innerDisk}</code>
                 </div>
                 <div class="mb-2">
                   <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
@@ -450,7 +453,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
           </div>`;
         }
@@ -462,7 +465,7 @@ function updatemappingtable() {
           const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
           const plainChar = outerDisk[outerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-light">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
             <div class="row"> 
               <div class="col-12">
                 <h6>
@@ -475,7 +478,7 @@ function updatemappingtable() {
                 <div class="mb-2">
                     <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
                     <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-info">${innerDisk}</code>
+                    <strong>Vòng trong:</strong> <code class="text-danger">${innerDisk}</code>
                 </div>
                 <div class="mb-2">
                   <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
@@ -490,7 +493,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
             <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
           </div>`;
         }
