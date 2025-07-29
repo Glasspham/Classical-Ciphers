@@ -2,15 +2,15 @@
 
 Một bộ sưu tập các công cụ mã hóa cổ điển được triển khai dưới dạng một ứng dụng web tương tác. Dự án này được tạo ra với mục đích giáo dục, giúp người dùng tìm hiểu và thực hành với các thuật toán mật mã lịch sử một cách trực quan và sinh động.
 
-<img alt="image" src="./pic/pic1.png" width="800">
-<img alt="image" src="./pic/pic2.png" width="800">
-<img alt="image" src="./pic/pic3.png" width="800">
-<img alt="image" src="./pic/pic4.png" width="800">
-<img alt="image" src="./pic/pic5.png" width="800">
-<img alt="image" src="./pic/pic6.png" width="800">
-<img alt="image" src="./pic/pic7.png" width="800">
-<img alt="image" src="./pic/pic8.png" width="800">
-<img alt="image" src="./pic/pic9.png" width="800">
+<img alt="image" src="./Pic/pic1.png" width="800">
+<img alt="image" src="./Pic/pic2.png" width="800">
+<img alt="image" src="./Pic/pic3.png" width="800">
+<img alt="image" src="./Pic/pic4.png" width="800">
+<img alt="image" src="./Pic/pic5.png" width="800">
+<img alt="image" src="./Pic/pic6.png" width="800">
+<img alt="image" src="./Pic/pic7.png" width="800">
+<img alt="image" src="./Pic/pic8.png" width="800">
+<img alt="image" src="./Pic/pic9.png" width="800">
 
 ## ✨ Tính năng
 
