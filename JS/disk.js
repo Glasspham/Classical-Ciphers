@@ -307,6 +307,20 @@ function getMappedRotatedOuterDisk(keywordChar, indexChar, outerDisk, innerDisk)
   return mapped;
 }
 
+// Helper function to highlight specific characters in a string for the modal
+function highlightChars(originalString, highlights) {
+  let highlightedHtml = "";
+  for (const char of originalString) {
+    const highlight = highlights.find(h => h.char === char);
+    if (highlight) {
+      highlightedHtml += `<span class="badge ${highlight.styleClass}">${char}</span>`;
+    } else {
+      highlightedHtml += char;
+    }
+  }
+  return highlightedHtml;
+}
+
 function updatemappingtable() {
   const plaintext = (document.getElementById("plaintext").value || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
   const keyword = (document.getElementById("keyword").value || "KM21").toUpperCase();
@@ -330,8 +344,12 @@ function updatemappingtable() {
     const char = loopText[i];
     const keywordChar = keyword[i % keyword.length];
     const keywordPosInOuter = outerDisk.indexOf(keywordChar);
+
+    let outerDiskHtml = `<code>${outerDisk}</code>`;
+    let innerDiskHtml = `<code>${innerDisk}</code>`;
+
     if (CipherDisk.isInnerRotation) {
-      // ===== VÒNG TRONG =====
+      // ===== VÒNG TRONG XOAY =====
       const mappedRotatedInner = getMappedRotatedInnerDisk(keywordChar, indexChar, outerDisk, innerDisk);
       if (!CipherDisk.isDecryptMode) {
         // ===== MÃ HÓA =====
@@ -341,7 +359,19 @@ function updatemappingtable() {
           const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
           const cipherChar = innerDisk[innerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
+          const outerHighlights = [
+            { char: keywordChar, styleClass: 'bg-secondary' },
+            { char: char, styleClass: 'bg-primary' }
+          ];
+          const innerHighlights = [
+            { char: indexChar, styleClass: 'bg-warning text-dark' },
+            { char: cipherChar, styleClass: 'bg-success' }
+          ];
+
+          outerDiskHtml = `<code>${highlightChars(outerDisk, outerHighlights)}</code>`;
+          innerDiskHtml = `<code>${highlightChars(mappedRotatedInner, innerHighlights)}</code>`;
+
+          html += `<div class="border rounded p-3 mb-3 bg-light">
             <div class="row">
               <div class="col-12">
                 <h6>
@@ -353,8 +383,8 @@ function updatemappingtable() {
                 </h6>
                 <div class="mb-2">
                     <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
-                    <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-danger">${mappedRotatedInner}</code>
+                    <strong>Vòng ngoài:</strong> ${outerDiskHtml}<br>
+                    <strong>Vòng trong:</strong> ${innerDiskHtml}
                 </div>
                 <div class="mb-2">
                   <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
@@ -369,7 +399,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
             <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
           </div>`;
         }
@@ -381,7 +411,19 @@ function updatemappingtable() {
           const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
           const plainChar = outerDisk[outerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
+           const outerHighlights = [
+            { char: keywordChar, styleClass: 'bg-secondary' },
+            { char: plainChar, styleClass: 'bg-primary' }
+          ];
+          const innerHighlights = [
+            { char: indexChar, styleClass: 'bg-warning text-dark' },
+            { char: char, styleClass: 'bg-success' }
+          ];
+
+          outerDiskHtml = `<code>${highlightChars(outerDisk, outerHighlights)}</code>`;
+          innerDiskHtml = `<code>${highlightChars(mappedRotatedInner, innerHighlights)}</code>`;
+
+          html += `<div class="border rounded p-3 mb-3 bg-light">
             <div class="row"> 
               <div class="col-12">
                 <h6>
@@ -393,8 +435,8 @@ function updatemappingtable() {
                 </h6>
                 <div class="mb-2">
                     <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
-                    <strong>Vòng ngoài:</strong> <code class="text-primary">${outerDisk}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-danger">${mappedRotatedInner}</code>
+                    <strong>Vòng ngoài:</strong> ${outerDiskHtml}<br>
+                    <strong>Vòng trong:</strong> ${innerDiskHtml}
                 </div>
                 <div class="mb-2">
                   <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
@@ -409,13 +451,13 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
             <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
           </div>`;
         }
       }
     } else {
-      // ===== VÒNG NGOÀI =====
+      // ===== VÒNG NGOÀI XOAY =====
       const mappedRotatedOuter = getMappedRotatedOuterDisk(keywordChar, indexChar, outerDisk, innerDisk);
       if (!CipherDisk.isDecryptMode) {
         // ===== MÃ HÓA =====
@@ -425,7 +467,19 @@ function updatemappingtable() {
           const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
           const cipherChar = innerDisk[innerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
+          const outerHighlights = [
+            { char: keywordChar, styleClass: 'bg-secondary' },
+            { char: char, styleClass: 'bg-primary' }
+          ];
+          const innerHighlights = [
+            { char: indexChar, styleClass: 'bg-warning text-dark' },
+            { char: cipherChar, styleClass: 'bg-success' }
+          ];
+
+          outerDiskHtml = `<code>${highlightChars(mappedRotatedOuter, outerHighlights)}</code>`;
+          innerDiskHtml = `<code>${highlightChars(innerDisk, innerHighlights)}</code>`;
+
+          html += `<div class="border rounded p-3 mb-3 bg-light">
             <div class="row">
               <div class="col-12">
                 <h6>
@@ -437,8 +491,8 @@ function updatemappingtable() {
                 </h6>
                 <div class="mb-2">
                     <strong>Mô phỏng vòng ngoài sau khi xoay:</strong> <br>
-                    <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-danger">${innerDisk}</code>
+                    <strong>Vòng ngoài:</strong> ${outerDiskHtml}<br>
+                    <strong>Vòng trong:</strong> ${innerDiskHtml}
                 </div>
                 <div class="mb-2">
                   <strong>Plain:</strong> <span class="badge bg-primary fs-6">${char}</span> → <strong>Cipher:</strong> <span class="badge bg-success fs-6">${cipherChar}</span>
@@ -453,7 +507,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
             <h6><strong>Bước ${i + 1}:</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng ngoài và được giữ nguyên.</h6>
           </div>`;
         }
@@ -465,7 +519,19 @@ function updatemappingtable() {
           const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
           const plainChar = outerDisk[outerIndex];
 
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail">
+          const outerHighlights = [
+            { char: keywordChar, styleClass: 'bg-secondary' },
+            { char: plainChar, styleClass: 'bg-primary' }
+          ];
+          const innerHighlights = [
+            { char: indexChar, styleClass: 'bg-warning text-dark' },
+            { char: char, styleClass: 'bg-success' }
+          ];
+
+          outerDiskHtml = `<code>${highlightChars(mappedRotatedOuter, outerHighlights)}</code>`;
+          innerDiskHtml = `<code>${highlightChars(innerDisk, innerHighlights)}</code>`;
+
+          html += `<div class="border rounded p-3 mb-3 bg-light">
             <div class="row"> 
               <div class="col-12">
                 <h6>
@@ -476,9 +542,9 @@ function updatemappingtable() {
                   (vòng trong)
                 </h6>
                 <div class="mb-2">
-                    <strong>Mô phỏng vòng trong sau khi xoay:</strong> <br>
-                    <strong>Vòng ngoài:</strong> <code class="text-primary">${mappedRotatedOuter}</code><br>
-                    <strong>Vòng trong:</strong> <code class="text-danger">${innerDisk}</code>
+                    <strong>Mô phỏng vòng ngoài sau khi xoay:</strong> <br>
+                    <strong>Vòng ngoài:</strong> ${outerDiskHtml}<br>
+                    <strong>Vòng trong:</strong> ${innerDiskHtml}
                 </div>
                 <div class="mb-2">
                   <strong>Cipher:</strong> <span class="badge bg-success fs-6">${char}</span> → <strong>Plain:</strong> <span class="badge bg-primary fs-6">${plainChar}</span>
@@ -493,7 +559,7 @@ function updatemappingtable() {
             </div>
           </div>`;
         } else {
-          html += `<div class="border rounded p-3 mb-3 bg-solution-detail-danger">
+          html += `<div class="border rounded p-3 mb-3 bg-light-danger">
             <h6><strong>Bước ${i + 1} (Giải mã):</strong> Ký tự <span class="badge bg-danger fs-6">${char}</span> không có trong vòng trong và được giữ nguyên.</h6>
           </div>`;
         }
