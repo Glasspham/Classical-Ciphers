@@ -53,7 +53,7 @@ const CipherDisk = {
 
   draw: function (drawStep = 0) {
     // ===== CÁC BIẾN CẤU HÌNH KÍCH THƯỚC =====
-    const CANVAS_SIZE = 300; // Kích thước canvas
+    const CANVAS_SIZE = document.getElementById("cipher-disk"); // Kích thước canvas
     const CENTER_X = 150; // Tọa độ X của tâm
     const CENTER_Y = 150; // Tọa độ Y của tâm
     const OUTER_RADIUS = 145; // Bán kính vòng ngoài
@@ -85,7 +85,7 @@ const CipherDisk = {
     // Angle for 12 o'clock
     const topAngle = -90;
 
-    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.clearRect(0, 0, CANVAS_SIZE.width, CANVAS_SIZE.height);
 
     // Draw outer disk background
     ctx.fillStyle = COLOR_BACKGROUND;

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="Pic/icon.ico" />
+    <title>Disk Visualization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="container mt-4">
+      <div class="cipher-header mb-3">
+        <h1 class="display-4"><i class="fas fa-circle-notch text-info me-3"></i>Cipher Disk Visualization</h1>
+      </div>
+
+      <div class="row">
+        <!-- Visualization Section -->
+        <div class="col-lg-6 text-dark">
+          <div class="visualization-container text-center position-relative">
+            <button id="settings-btn" class="btn btn-outline-light position-absolute top-0 start-0 m-2" 
+                    data-bs-toggle="popover" data-bs-placement="bottom" data-bs-title="Cài đặt xoay"
+                    data-bs-html="true">
+              <i class="fas fa-cog"></i>
+            </button>
+            <template id="popover-content">
+              <div>
+                <fieldset class="mb-2">
+                  <legend class="form-label fs-6">Đối tượng xoay:</legend>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rotationTarget" id="rotate-inner-radio" value="inner" checked>
+                    <label class="form-check-label" for="rotate-inner-radio">Vòng trong</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rotationTarget" id="rotate-outer-radio" value="outer">
+                    <label class="form-check-label" for="rotate-outer-radio">Vòng ngoài</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rotationTarget" id="rotate-both-radio" value="both">
+                    <label class="form-check-label" for="rotate-both-radio">Cả hai vòng</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rotationTarget" id="rotate-none-radio" value="none">
+                    <label class="form-check-label" for="rotate-none-radio">Không xoay</label>
+                  </div>
+                </fieldset>
+                <fieldset id="rotation-mode-group">
+                  <legend class="form-label fs-6">Chế độ xoay:</legend>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rotationMode" id="rotate-snap-radio" value="snap" checked>
+                    <label class="form-check-label" for="rotate-snap-radio">Xoay theo khối (Snap)</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rotationMode" id="rotate-free-radio" value="free">
+                    <label class="form-check-label" for="rotate-free-radio">Xoay tự do (Free)</label>
+                  </div>
+                </fieldset>
+              </div>
+            </template>
+            <h4><i class="fas fa-eye text-info me-2"></i>Interactive Cipher Disk</h4>
+            <p class="text-light">Xoay các vòng bằng cách thay đổi ký tự căn chỉnh bên dưới.</p>
+            <canvas id="cipher-disk-viz" width="400" height="400" class="cipher-disk-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="col-lg-6">
+          <div class="cipher-tools">
+            <h4><i class="fas fa-cogs text-info me-2"></i>Điều khiển</h4>
+
+            <div class="form-group">
+              <label for="outer-disk-input" class="form-label">Vòng ngoài (Outer Ring):</label>
+              <input type="text" id="outer-disk-input" class="form-control text-mono" maxlength="30" value="AWCDEUGILMNOPQRSTVXY12KH"/>
+              <small class="text-light">Các ký tự cho vòng ngoài.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="inner-disk-input" class="form-label">Vòng trong (Inner Ring):</label>
+              <input type="text" id="inner-disk-input" class="form-control text-mono" maxlength="30" value="DLGAZENBOSFCHTYQIXKVP&MR"/>
+              <small class="text-light">Các ký tự cho vòng trong.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="outer-align-input" class="form-label">Căn chỉnh vòng ngoài (12h):</label>
+              <input type="text" id="outer-align-input" class="form-control" maxlength="1" value="A"/>
+              <small class="text-light">Ký tự của vòng ngoài sẽ được xoay lên vị trí 12 giờ.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="inner-align-input" class="form-label">Căn chỉnh vòng trong (12h):</label>
+              <input type="text" id="inner-align-input" class="form-control" maxlength="1" value="D"/>
+              <small class="text-light">Ký tự của vòng trong sẽ được xoay lên vị trí 12 giờ.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/disk_visualization.js"></script>
+    <script src="./JS/navbar.js"></script>
+    <script src="./JS/footer.js"></script>
+  </body>
+</html>

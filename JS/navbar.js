@@ -33,6 +33,9 @@ function loadNavbar() {
                         <li class="nav-item">
                             <a class="nav-link" href="trithemius.html">Trithemius</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="disk_visualization.html">Disk Visualization</a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -491,3 +491,12 @@ a {
     margin-bottom: 1rem;
   }
 }
+
+/* Custom Popover for Disk Settings */
+.disk-settings-popover .popover-header {
+  color: #212529; /* Dark text for header */
+}
+
+.disk-settings-popover .popover-body {
+  color: #212529; /* Dark text for body */
+}
