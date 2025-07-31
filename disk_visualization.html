@@ -14,8 +14,38 @@
       <div class="cipher-header mb-3">
         <h1 class="display-4"><i class="fas fa-circle-notch text-info me-3"></i>Cipher Disk Visualization</h1>
       </div>
-
       <div class="row">
+        <!-- Controls Section -->
+        <div class="col-lg-6">
+          <div class="cipher-tools">
+            <h4><i class="fas fa-cogs text-info me-2"></i>Điều khiển</h4>
+
+            <div class="form-group">
+              <label for="outer-disk-input" class="form-label">Vòng ngoài (Outer Ring):</label>
+              <input type="text" id="outer-disk-input" class="form-control text-mono" maxlength="30" value="AWCDEUGILMNOPQRSTVXY12KH"/>
+              <small class="text-light">Các ký tự cho vòng ngoài.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="inner-disk-input" class="form-label">Vòng trong (Inner Ring):</label>
+              <input type="text" id="inner-disk-input" class="form-control text-mono" maxlength="30" value="DLGAZENBOSFCHTYQIXKVP&MR"/>
+              <small class="text-light">Các ký tự cho vòng trong.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="outer-align-input" class="form-label">Căn chỉnh vòng ngoài (12h):</label>
+              <input type="text" id="outer-align-input" class="form-control" maxlength="1" value="A"/>
+              <small class="text-light">Ký tự của vòng ngoài sẽ được xoay lên vị trí 12 giờ.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="inner-align-input" class="form-label">Căn chỉnh vòng trong (12h):</label>
+              <input type="text" id="inner-align-input" class="form-control" maxlength="1" value="D"/>
+              <small class="text-light">Ký tự của vòng trong sẽ được xoay lên vị trí 12 giờ.</small>
+            </div>
+          </div>
+        </div>
+
         <!-- Visualization Section -->
         <div class="col-lg-6 text-dark">
           <div class="visualization-container text-center position-relative">
@@ -58,40 +88,12 @@
                 </fieldset>
               </div>
             </template>
+            <br>
             <h4><i class="fas fa-eye text-info me-2"></i>Interactive Cipher Disk</h4>
-            <p class="text-light">Xoay các vòng bằng cách thay đổi ký tự căn chỉnh bên dưới.</p>
-            <canvas id="cipher-disk-viz" width="400" height="400" class="cipher-disk-canvas"></canvas>
-          </div>
-        </div>
-
-        <!-- Controls Section -->
-        <div class="col-lg-6">
-          <div class="cipher-tools">
-            <h4><i class="fas fa-cogs text-info me-2"></i>Điều khiển</h4>
-
-            <div class="form-group">
-              <label for="outer-disk-input" class="form-label">Vòng ngoài (Outer Ring):</label>
-              <input type="text" id="outer-disk-input" class="form-control text-mono" maxlength="30" value="AWCDEUGILMNOPQRSTVXY12KH"/>
-              <small class="text-light">Các ký tự cho vòng ngoài.</small>
-            </div>
-
-            <div class="form-group">
-              <label for="inner-disk-input" class="form-label">Vòng trong (Inner Ring):</label>
-              <input type="text" id="inner-disk-input" class="form-control text-mono" maxlength="30" value="DLGAZENBOSFCHTYQIXKVP&MR"/>
-              <small class="text-light">Các ký tự cho vòng trong.</small>
-            </div>
-
-            <div class="form-group">
-              <label for="outer-align-input" class="form-label">Căn chỉnh vòng ngoài (12h):</label>
-              <input type="text" id="outer-align-input" class="form-control" maxlength="1" value="A"/>
-              <small class="text-light">Ký tự của vòng ngoài sẽ được xoay lên vị trí 12 giờ.</small>
-            </div>
-
-            <div class="form-group">
-              <label for="inner-align-input" class="form-label">Căn chỉnh vòng trong (12h):</label>
-              <input type="text" id="inner-align-input" class="form-control" maxlength="1" value="D"/>
-              <small class="text-light">Ký tự của vòng trong sẽ được xoay lên vị trí 12 giờ.</small>
-            </div>
+            <br>
+            <canvas id="cipher-disk-viz" width="300" height="300" class="cipher-disk-canvas"></canvas>
+            <br>
+            <small class="small text-secondary">Xoay các vòng bằng cách thay đổi ký tự căn chỉnh bên bảng điều khiển hoặc xoay vòng.</small>
           </div>
         </div>
       </div>

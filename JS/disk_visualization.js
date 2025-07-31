@@ -13,7 +13,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const settingsBtn = document.getElementById("settings-btn");
   const popover = new bootstrap.Popover(settingsBtn, {
     content: function () {
-      return document.getElementById("popover-content").content.cloneNode(true);
+      // Clone the template content
+      const contentNode = document.getElementById("popover-content").content.cloneNode(true);
+      
+      // Set the state of the radio buttons before the popover is shown
+      // This prevents the UI from flickering
+      const rotationTargetRadios = contentNode.querySelectorAll('input[name="rotationTarget"]');
+      rotationTargetRadios.forEach(radio => {
+        radio.checked = (radio.value === rotationTarget);
+      });
+
+      const rotationModeRadios = contentNode.querySelectorAll('input[name="rotationMode"]');
+      rotationModeRadios.forEach(radio => {
+        radio.checked = (radio.value === rotationMode);
+      });
+      
+      const rotationModeGroup = contentNode.querySelector('#rotation-mode-group');
+      if (rotationModeGroup) {
+          rotationModeGroup.style.display = (rotationTarget === 'none') ? 'none' : 'block';
+      }
+
+      return contentNode;
     },
     html: true,
     customClass: 'disk-settings-popover',
@@ -182,25 +202,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function snapRing(isInner) {
+    const chars = (isInner ? innerDiskInput.value : outerDiskInput.value).toUpperCase();
+    if (chars.length > 0) {
+      const angleStep = (2 * Math.PI) / chars.length;
+      const currentRotation = isInner ? innerRotation : outerRotation;
+      const snappedIndex = Math.round(-currentRotation / angleStep);
+      const snappedRotation = -snappedIndex * angleStep;
+      if (isInner) {
+        innerRotation = snappedRotation;
+      } else {
+        outerRotation = snappedRotation;
+      }
+      updateAlignInputForRing(isInner);
+    }
+  }
+
+  function snapToNearest() {
+    if (rotationTarget === 'inner') {
+      snapRing(true);
+    } else if (rotationTarget === 'outer') {
+      snapRing(false);
+    } else if (rotationTarget === 'both') {
+      snapRing(true);
+      snapRing(false);
+    }
+  }
+
   function handleMouseUp() {
     if (!isDragging) return;
 
     if (rotationMode === 'snap' && draggedRing) {
-      const isInner = (draggedRing === 'inner');
-      const chars = (isInner ? innerDiskInput.value : outerDiskInput.value).toUpperCase();
-      if (chars.length > 0) {
-        const angleStep = (2 * Math.PI) / chars.length;
-        const currentRotation = isInner ? innerRotation : outerRotation;
-        const snappedIndex = Math.round(-currentRotation / angleStep);
-        const snappedRotation = -snappedIndex * angleStep;
-        if (isInner) {
-          innerRotation = snappedRotation;
-        } else {
-          outerRotation = snappedRotation;
-        }
-        updateInputFromRotation();
-        drawDisk();
-      }
+      snapRing(draggedRing === 'inner');
+      drawDisk();
     }
     
     isDragging = false;
@@ -224,26 +258,25 @@ document.addEventListener("DOMContentLoaded", () => {
     drawDisk();
   }
 
+  function updateAlignInputForRing(isInner) {
+    const chars = (isInner ? innerDiskInput.value : outerDiskInput.value).toUpperCase();
+    const rotation = isInner ? innerRotation : outerRotation;
+    const inputField = isInner ? innerAlignInput : outerAlignInput;
+
+    if (chars.length > 0) {
+      const angleStep = (2 * Math.PI) / chars.length;
+      let topIndex = Math.round(-rotation / angleStep);
+      topIndex = (topIndex % chars.length + chars.length) % chars.length;
+      const newAlignChar = chars[topIndex];
+      if (inputField.value !== newAlignChar) {
+        inputField.value = newAlignChar;
+      }
+    }
+  }
+
   function updateInputFromRotation() {
     if (!draggedRing) return; // Only update if a ring was dragged
-
-    const updateRing = (isInner) => {
-      const chars = (isInner ? innerDiskInput.value : outerDiskInput.value).toUpperCase();
-      const rotation = isInner ? innerRotation : outerRotation;
-      const inputField = isInner ? innerAlignInput : outerAlignInput;
-
-      if (chars.length > 0) {
-        const angleStep = (2 * Math.PI) / chars.length;
-        let topIndex = Math.round(-rotation / angleStep);
-        topIndex = (topIndex % chars.length + chars.length) % chars.length;
-        const newAlignChar = chars[topIndex];
-        if (inputField.value !== newAlignChar) {
-          inputField.value = newAlignChar;
-        }
-      }
-    };
-
-    updateRing(draggedRing === 'inner');
+    updateAlignInputForRing(draggedRing === 'inner');
   }
 
   // --- Event Listeners ---
@@ -260,14 +293,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = e.target;
     if (target.name === 'rotationTarget') {
       rotationTarget = target.value;
-      const rotationModeGroup = document.querySelector('#rotation-mode-group');
-      if (rotationModeGroup) {
-          rotationModeGroup.style.display = (rotationTarget === 'none') ? 'none' : 'block';
+      // Find the popover this radio button is in to correctly hide/show the mode group
+      const popoverBody = target.closest('.popover-body');
+      if (popoverBody) {
+        const rotationModeGroup = popoverBody.querySelector('#rotation-mode-group');
+        if (rotationModeGroup) {
+            rotationModeGroup.style.display = (rotationTarget === 'none') ? 'none' : 'block';
+        }
       }
       canvas.style.cursor = (rotationTarget === 'none') ? 'default' : 'pointer';
     }
     if (target.name === 'rotationMode') {
+      const oldMode = rotationMode;
       rotationMode = target.value;
+      // When switching from free to snap, auto-snap the disks
+      if (oldMode === 'free' && rotationMode === 'snap') {
+        snapToNearest();
+        drawDisk();
+      }
     }
   });
 
