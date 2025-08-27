@@ -257,7 +257,7 @@ function updateStepByStep(text, keyType, customKey, isEncrypt) {
     html += `<tr>
             <td><strong>${step.position}</strong></td>
             <td><span class="badge bg-secondary">${step.original}</span></td>
-            <td><span class="badge bg-info">${step.key} (${step.keyChar})</span></td>
+            <td><span class="badge bg-info">${step.key}</span></td>
             <td><strong>${step.calculation}</strong></td>
             <td><span class="badge bg-success">${step.result}</span></td>
         </tr>`;

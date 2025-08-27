@@ -177,7 +177,8 @@
             <div class="d-flex gap-2 mb-3">
               <button class="btn btn-encrypt" onclick="encryptDisk()"><i class="fas fa-lock me-2"></i>Mã hóa</button>
               <button class="btn btn-decrypt" onclick="decryptDisk()"><i class="fas fa-unlock me-2"></i>Giải mã</button>
-              <button class="btn btn-clear" onclick="clearAll()"><i class="fas fa-eraser me-2"></i>Xóa tất cả</button>
+              <button class="btn btn-clear" onclick="clearContent()"><i class="fas fa-eraser me-2"></i>Xóa nội dung</button>
+              <button class="btn btn-danger" onclick="resetDisks()"><i class="fas fa-eraser me-2"></i>Xóa sạch</button>
             </div>
 
             <div class="form-group">
@@ -204,15 +205,40 @@
 
           <!-- Công thức thuật toán -->
           <div class="visualization-container">
-            <h5><i class="fas fa-calculator me-2"></i>Công thức thuật toán:</h5>
-            <strong>Công thức mã hóa:</strong><br />
-            <small>
-              1. Tìm vị trí của ký tự keyword trong vòng ngoài<br />
-              2. Tìm vị trí của ký tự plaintext trong vòng ngoài<br />
-              3. Tính: relativePos = plainPos - keywordPos<br />
-              4. Tính: innerIndex = (indexPos + relativePos + innerLength) % innerLength<br />
-              5. Lấy ký tự tại vị trí innerIndex trong vòng trong
-            </small>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5><i class="fas fa-calculator me-2"></i>Công thức thuật toán:</h5>
+                <div><button type="button" class="btn btn-outline-info btn-sm" onclick="toggleFormula()"><i class="fas fa-sync-alt me-2"></i>Chuyển đổi</button></div>
+            </div>
+            <div id="formulas-container">
+              <div id="encryption-formula">
+                <strong>Công thức mã hóa:</strong><br />
+                <small>
+                  1. <strong>Xác định vị trí:</strong>
+                  <ul>
+                    <li><code>Vị_trí_Plaintext</code>: Vị trí của ký tự cần mã hóa trên vòng ngoài.</li>
+                    <li><code>Vị_trí_Keyword</code>: Vị trí của ký tự keyword tương ứng trên vòng ngoài.</li>
+                    <li><code>Vị_trí_Index</code>: Vị trí của ký tự khớp (Index) trên vòng trong.</li>
+                  </ul>
+                  2. <strong>Tính độ dịch chuyển:</strong> <code>Offset = Vị_trí_Plaintext - Vị_trí_Keyword</code><br />
+                  3. <strong>Tìm vị trí ký tự mã hóa:</strong> <code>Vị_trí_Cipher = (Vị_trí_Index + Offset) % Độ_dài_vòng_trong</code><br />
+                  4. <strong>Kết quả:</strong> Ký tự tại <code>Vị_trí_Cipher</code> trên vòng trong.
+                </small>
+              </div>
+              <div id="decryption-formula" class="d-none mt-2">
+                <strong>Công thức giải mã:</strong><br />
+                <small>
+                  1. <strong>Xác định vị trí:</strong>
+                  <ul>
+                    <li><code>Vị_trí_Cipher</code>: Vị trí của ký tự cần giải mã trên vòng trong.</li>
+                    <li><code>Vị_trí_Keyword</code>: Vị trí của ký tự keyword tương ứng trên vòng ngoài.</li>
+                    <li><code>Vị_trí_Index</code>: Vị trí của ký tự khớp (Index) trên vòng trong.</li>
+                  </ul>
+                  2. <strong>Tính độ dịch chuyển:</strong> <code>Offset = Vị_trí_Cipher - Vị_trí_Index</code><br />
+                  3. <strong>Tìm vị trí ký tự gốc:</strong> <code>Vị_trí_Plaintext = (Vị_trí_Keyword + Offset) % Độ_dài_vòng_ngoài</code><br />
+                  4. <strong>Kết quả:</strong> Ký tự tại <code>Vị_trí_Plaintext</code> trên vòng ngoài.
+                </small>
+              </div>
+            </div>
           </div>
         </div>
       </div>

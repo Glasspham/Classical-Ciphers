@@ -19,8 +19,8 @@ const CipherDisk = {
   },
 
   updateFromInputs: function () {
-    this.outerDisk = document.getElementById("outer-disk").value || "AWCDEUGILMNOPQRSTVXY12KH";
-    this.innerDisk = document.getElementById("inner-disk").value || "DLGAZENBOSFCHTYQIXKVP&MR";
+    this.outerDisk = document.getElementById("outer-disk").value || "";
+    this.innerDisk = document.getElementById("inner-disk").value || "";
     this.indexChar = (document.getElementById("_index").value || "K").toUpperCase();
   },
 
@@ -241,8 +241,6 @@ const CipherDisk = {
 
 // Page functions
 function encryptDisk() {
-  CipherDisk.isDecryptMode = false; // Set to encrypt mode
-  CipherDisk.isInnerRotation = document.getElementById("rotate-inner").checked;
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0); // Reset view to the first step
   const plaintext = document.getElementById("plaintext").value;
@@ -259,8 +257,6 @@ function encryptDisk() {
 }
 
 function decryptDisk() {
-  CipherDisk.isDecryptMode = true; // Set to decrypt mode
-  CipherDisk.isInnerRotation = document.getElementById("rotate-inner").checked;
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0); // Reset view to the first step
   const ciphertext = document.getElementById("plaintext").value;
@@ -321,7 +317,7 @@ function highlightChars(originalString, highlights) {
   return highlightedHtml;
 }
 
-function updatemappingtable() {
+function updatemappingtable(limit = null) {
   const plaintext = (document.getElementById("plaintext").value || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
   const keyword = (document.getElementById("keyword").value || "KM21").toUpperCase();
   const indexChar = (document.getElementById("_index").value || "K").toUpperCase();
@@ -340,7 +336,9 @@ function updatemappingtable() {
   const loopText = CipherDisk.isDecryptMode ? ciphertext : plaintext;
   let html = "<div>";
 
-  for (let i = 0; i < loopText.length; i++) {
+  const loopLength = limit !== null ? Math.min(limit, loopText.length) : loopText.length;
+
+  for (let i = 0; i < loopLength; i++) {
     const char = loopText[i];
     const keywordChar = keyword[i % keyword.length];
     const keywordPosInOuter = outerDisk.indexOf(keywordChar);
@@ -408,7 +406,7 @@ function updatemappingtable() {
         const innerCharPos = innerDisk.indexOf(char);
         if (innerCharPos !== -1 && keywordPosInOuter !== -1) {
           const relativePos = innerCharPos - indexPosInInner;
-          const outerIndex = (keywordPosInOuter + relativePos + outerDisk.length) % outerDisk.length;
+          const outerIndex = (keywordPosInOuter + relativePos + this.outerDisk.length) % this.outerDisk.length;
           const plainChar = outerDisk[outerIndex];
 
            const outerHighlights = [
@@ -567,6 +565,10 @@ function updatemappingtable() {
     }
   }
 
+  if (limit !== null && limit < loopText.length) {
+    html += `<div class="alert alert-info mt-3">... và các bước sau được lặp lại tương tự.</div>`;
+  }
+
   html += "</div>";
   tableBody.innerHTML = html;
 }
@@ -588,17 +590,18 @@ function resetDisks() {
   document.getElementById("keyword").value = "";
   document.getElementById("_index").value = "";
   document.getElementById("plaintext").value = "";
+  document.getElementById("ciphertext").value = "";
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0);
   CipherUtils.showToast("Đã reset về cấu hình mặc định!");
 }
 
-function clearAll() {
+function clearContent() {
   document.getElementById("plaintext").value = "";
   document.getElementById("ciphertext").value = "";
   document.getElementById("result-message").style.display = "none";
   document.getElementById("show-details-btn").disabled = true;
-  CipherUtils.showToast("Đã xóa tất cả!");
+  CipherUtils.showToast("Đã xóa!");
 }
 
 function copyResult() {
@@ -610,6 +613,25 @@ function copyResult() {
   }
 }
 
+function updateFormulaVisibility() {
+  const encryptionFormula = document.getElementById('encryption-formula');
+  const decryptionFormula = document.getElementById('decryption-formula');
+  if (encryptionFormula && decryptionFormula) {
+    if (CipherDisk.isDecryptMode) {
+      encryptionFormula.classList.add('d-none');
+      decryptionFormula.classList.remove('d-none');
+    } else {
+      encryptionFormula.classList.remove('d-none');
+      decryptionFormula.classList.add('d-none');
+    }
+  }
+}
+
+function toggleFormula() {
+    CipherDisk.isDecryptMode = !CipherDisk.isDecryptMode;
+    updateFormulaVisibility();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   CipherDisk.init();
   var detailsModal = document.getElementById('detailsModal');
@@ -617,8 +639,10 @@ document.addEventListener("DOMContentLoaded", function () {
     detailsModal.addEventListener('show.bs.modal', function () {
       var processTitle = document.getElementById('process-title');
       if (processTitle) {
-        processTitle.textContent = CipherDisk.isDecryptMode ? 'Quá trình Decrypt' : 'Quá trình Encrypt';
+        processTitle.textContent = CipherDisk.isDecryptMode ? 'Quá trình Giải mã' : 'Quá trình Mã hóa';
       }
     });
   }
+  // Set initial formula visibility on page load
+  updateFormulaVisibility();
 });
