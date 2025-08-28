@@ -6,7 +6,7 @@ const CipherDisk = {
   ctx: null,
   step: 0, // For drawing specific steps
   indexChar: "K", // The reference character on the INNER disk
-  isDecryptMode: false, // Flag to check if in decrypt mode
+  isDecryptMode: true, // Flag to check if in decrypt mode
   isInnerRotation: true, // Flag to check if inner disk is rotating
 
   init: function () {
@@ -241,6 +241,8 @@ const CipherDisk = {
 
 // Page functions
 function encryptDisk() {
+  CipherDisk.isDecryptMode = false; // Set to encrypt mode
+  CipherDisk.isInnerRotation = document.getElementById("rotate-inner").checked;
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0); // Reset view to the first step
   const plaintext = document.getElementById("plaintext").value;
@@ -257,6 +259,8 @@ function encryptDisk() {
 }
 
 function decryptDisk() {
+  CipherDisk.isDecryptMode = true; // Set to decrypt mode
+  CipherDisk.isInnerRotation = document.getElementById("rotate-inner").checked;
   CipherDisk.updateFromInputs();
   CipherDisk.draw(0); // Reset view to the first step
   const ciphertext = document.getElementById("plaintext").value;
@@ -317,7 +321,7 @@ function highlightChars(originalString, highlights) {
   return highlightedHtml;
 }
 
-function updatemappingtable(limit = null) {
+function updatemappingtable() {
   const plaintext = (document.getElementById("plaintext").value || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
   const keyword = (document.getElementById("keyword").value || "KM21").toUpperCase();
   const indexChar = (document.getElementById("_index").value || "K").toUpperCase();
@@ -336,9 +340,7 @@ function updatemappingtable(limit = null) {
   const loopText = CipherDisk.isDecryptMode ? ciphertext : plaintext;
   let html = "<div>";
 
-  const loopLength = limit !== null ? Math.min(limit, loopText.length) : loopText.length;
-
-  for (let i = 0; i < loopLength; i++) {
+  for (let i = 0; i < loopText.length; i++) {
     const char = loopText[i];
     const keywordChar = keyword[i % keyword.length];
     const keywordPosInOuter = outerDisk.indexOf(keywordChar);
@@ -355,6 +357,7 @@ function updatemappingtable(limit = null) {
         if (outerCharPos !== -1 && keywordPosInOuter !== -1) {
           const relativePos = outerCharPos - keywordPosInOuter;
           const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
+          const idx = (indexPosInInner + relativePos) % innerDisk.length;
           const cipherChar = innerDisk[innerIndex];
 
           const outerHighlights = [
@@ -390,7 +393,7 @@ function updatemappingtable(limit = null) {
                 <div class="text-dark">
                   <strong>Giải thích bằng thuật toán:</strong><br>
                   • <code>${char}</code> (vị trí ${outerCharPos}) cách <code>${keywordChar}</code> (vị trí ${keywordPosInOuter}) là <strong>${relativePos}</strong> bước.<br>
-                  • Vị trí vòng trong = Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + <strong>${relativePos}</strong> = <strong>${innerIndex}</strong>.<br>
+                  • Vị trí vòng trong = (Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + ${relativePos}) % ${innerDisk.length} = <strong>${idx}</strong>${idx < 0 ? `(Chuyển về dương: ${innerIndex}).` : "."}<br>
                   • Ký tự tương ứng: <code>${cipherChar}</code>.
                 </div>
               </div>
@@ -442,7 +445,7 @@ function updatemappingtable(limit = null) {
                 <div class="text-dark">
                   <strong>Giải thích bằng thuật toán:</strong><br>
                   • <code>${char}</code> (vị trí ${innerCharPos} vòng trong) cách <code>${indexChar}</code> (vị trí ${indexPosInInner}) là <strong>${relativePos}</strong> bước.<br>
-                  • Vị trí vòng ngoài = Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + <strong>${relativePos}</strong> = <strong>${outerIndex}</strong>.<br>
+                  • Vị trí vòng ngoài = (Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + ${relativePos}) % ${outerDisk.length} = <strong>${outerIndex}</strong>.<br>
                   • Ký tự tương ứng: <code>${plainChar}</code>.
                 </div>
               </div>
@@ -463,6 +466,7 @@ function updatemappingtable(limit = null) {
         if (outerCharPos !== -1 && keywordPosInOuter !== -1) {
           const relativePos = outerCharPos - keywordPosInOuter;
           const innerIndex = (indexPosInInner + relativePos + innerDisk.length) % innerDisk.length;
+          const idx = (indexPosInInner + relativePos) % innerDisk.length;
           const cipherChar = innerDisk[innerIndex];
 
           const outerHighlights = [
@@ -498,7 +502,7 @@ function updatemappingtable(limit = null) {
                 <div class="text-dark">
                   <strong>Giải thích bằng thuật toán:</strong><br>
                   • <code>${char}</code> (vị trí ${outerCharPos}) cách <code>${keywordChar}</code> (vị trí ${keywordPosInOuter}) là <strong>${relativePos}</strong> bước.<br>
-                  • Vị trí vòng trong = Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + <strong>${relativePos}</strong> = <strong>${innerIndex}</strong>.<br>
+                  • Vị trí vòng trong = (Vị trí của <code>${indexChar}</code> (${indexPosInInner}) + ${relativePos}) % ${innerDisk.length} = <strong>${idx}</strong> ${idx < 0 ? `(Chuyển về dương: ${innerIndex})` : ""}.<br>
                   • Ký tự tương ứng: <code>${cipherChar}</code>.
                 </div>
               </div>
@@ -550,7 +554,7 @@ function updatemappingtable(limit = null) {
                 <div class="text-dark">
                   <strong>Giải thích bằng thuật toán:</strong><br>
                   • <code>${char}</code> (vị trí ${innerCharPos} vòng trong) cách <code>${indexChar}</code> (vị trí ${indexPosInInner}) là <strong>${relativePos}</strong> bước.<br>
-                  • Vị trí vòng ngoài = Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + <strong>${relativePos}</strong> = <strong>${outerIndex}</strong>.<br>
+                  • Vị trí vòng ngoài = (Vị trí của <code>${keywordChar}</code> (${keywordPosInOuter}) + ${relativePos}) % ${outerDisk.length} = <strong>${outerIndex}</strong>.<br>
                   • Ký tự tương ứng: <code>${plainChar}</code>.
                 </div>
               </div>
@@ -563,10 +567,6 @@ function updatemappingtable(limit = null) {
         }
       }
     }
-  }
-
-  if (limit !== null && limit < loopText.length) {
-    html += `<div class="alert alert-info mt-3">... và các bước sau được lặp lại tương tự.</div>`;
   }
 
   html += "</div>";
