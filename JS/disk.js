@@ -254,7 +254,7 @@ function encryptDisk() {
   const result = CipherDisk.encrypt(plaintext);
   document.getElementById("ciphertext").value = result;
   CipherUtils.showResult("result-message", "Mã hóa thành công!", true);
-  updatemappingtable();
+  updatemappingtable(plaintext);
   document.getElementById("show-details-btn").disabled = false;
 }
 
@@ -272,7 +272,7 @@ function decryptDisk() {
   const result = CipherDisk.decrypt(ciphertext);
   document.getElementById("ciphertext").value = result;
   CipherUtils.showResult("result-message", "Giải mã thành công!", true);
-  updatemappingtable();
+  updatemappingtable(ciphertext);
   document.getElementById("show-details-btn").disabled = false;
 }
 
@@ -321,8 +321,8 @@ function highlightChars(originalString, highlights) {
   return highlightedHtml;
 }
 
-function updatemappingtable() {
-  const plaintext = (document.getElementById("plaintext").value || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
+function updatemappingtable(inputText) {
+  const loopText = (inputText || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
   const keyword = (document.getElementById("keyword").value || "KM21").toUpperCase();
   const indexChar = (document.getElementById("_index").value || "K").toUpperCase();
   const outerDisk = CipherDisk.outerDisk;
@@ -336,8 +336,6 @@ function updatemappingtable() {
     return;
   }
 
-  const ciphertext = (document.getElementById("plaintext")?.value || "").toUpperCase().replace(/[^A-Z0-9&]/g, "");
-  const loopText = CipherDisk.isDecryptMode ? ciphertext : plaintext;
   let html = "<div>";
 
   for (let i = 0; i < loopText.length; i++) {
@@ -428,7 +426,7 @@ function updatemappingtable() {
             <div class="row"> 
               <div class="col-12">
                 <h6>
-                  <strong>Bước ${i + 1} (Giải mã):</strong>
+                  <strong>Bước ${i + 1}:</strong>
                   <span class="badge bg-secondary">${keywordChar}</span>
                   (vòng ngoài) thẳng hàng với
                   <span class="badge bg-warning text-dark">${indexChar}</span>
@@ -537,7 +535,7 @@ function updatemappingtable() {
             <div class="row"> 
               <div class="col-12">
                 <h6>
-                  <strong>Bước ${i + 1} (Giải mã):</strong>
+                  <strong>Bước ${i + 1}:</strong>
                   <span class="badge bg-secondary">${keywordChar}</span>
                   (vòng ngoài) thẳng hàng với
                   <span class="badge bg-warning text-dark">${indexChar}</span>
